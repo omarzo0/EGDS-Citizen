@@ -52,12 +52,12 @@ function Header() {
       <nav className="bg-white fixed w-full shadow-md z-50 mt-1">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           {/* Brand Logo */}
-          <a
-            className="text-xl font-bold text-purple-900 ml-10"
-            href="#page-top"
+          <Link
+            className="text-xl font-bold text-[#872341] ml-10"
+            to="/app/Home"
           >
-            ER System
-          </a>
+            EGR System
+          </Link>
 
           {/* Mobile Menu Button */}
           <button className="block lg:hidden text-purple-900 focus:outline-none">
@@ -70,38 +70,43 @@ function Header() {
 
           {/* Menu Links */}
           <div className={`lg:flex items-center  w-full lg:w-auto`}>
-            <ul className="flex flex-col lg:flex-row lg:space-x-6 text-purple-900 mt-4 lg:mt-0">
+            <ul className="flex flex-col lg:flex-row lg:space-x-6 text-[#872341] mt-4 lg:mt-0">
+              <li>
+                <Link
+                  to="/app/Home"
+                  className="block py-2 hover:text-[#BE3144]"
+                >
+                  Home
+                </Link>
+              </li>
               <li>
                 <Link
                   to="/app/profile"
-                  className="block py-2 hover:text-purple-600"
+                  className="block py-2 hover:text-[#BE3144]"
                 >
                   Profile
                 </Link>
               </li>
               <li>
-                <a
-                  href="#features"
-                  className="block py-2 hover:text-purple-600"
-                >
+                <a href="#features" className="block py-2 hover:text-[#BE3144]">
                   Digital Wallet
                 </a>
               </li>
               <li>
-                <a href="#about" className="block py-2 hover:text-purple-600">
+                <a href="#about" className="block py-2 hover:text-[#BE3144]">
                   Documents
                 </a>
               </li>
               <li>
                 <Link
                   to="/app/settings-profile"
-                  className="block py-2 hover:text-purple-600"
+                  className="block py-2 hover:text-[#BE3144]"
                 >
                   Settings
                 </Link>
               </li>
               <li>
-                <Link to="/login" className="block py-2 hover:text-purple-600">
+                <Link to="/login" className="block py-2 hover:text-[#BE3144]">
                   Login
                 </Link>
               </li>
@@ -116,7 +121,7 @@ function Header() {
             <div className="indicator">
               <BellIcon className="h-6 w-6" />
               {noOfNotifications > 0 ? (
-                <span className="indicator-item badge badge-secondary badge-sm">
+                <span className="indicator-item badge bg-[#E17564] badge-sm">
                   {noOfNotifications}
                 </span>
               ) : null}

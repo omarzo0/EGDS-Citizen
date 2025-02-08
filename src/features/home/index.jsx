@@ -1,61 +1,239 @@
 import React from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  FaIdCard,
+  FaCertificate,
+  FaFileAlt,
+  FaHeart,
+  FaEdit,
+  FaUserFriends,
+  FaAddressCard,
+  FaHome,
+  FaBriefcase,
+  FaRing,
+  FaGavel,
+  FaCross,
+  FaBook,
+  FaPrint,
+  FaRobot,
+  FaBuilding,
+  FaPhoneAlt,
+  FaAmbulance,
+  FaCity,
+  FaCogs,
+  FaGasPump,
+  FaWater,
+  FaPhone,
+  FaEnvelope,
+  FaBox,
+  FaHandsHelping,
+  FaUniversity,
+  FaLaptop,
+  FaUserTie,
+  FaHospital,
+  FaUserMd,
+  FaStethoscope,
+  FaSchool,
+  FaChalkboardTeacher,
+  FaUsers,
+  FaMosque,
+  FaBookReader,
+} from "react-icons/fa";
 
 const Home = (props) => {
   const data = [
+    { name: "National ID Card", text: "Identity Services", icon: FaIdCard },
     {
-      icon: "fas fa-laptop-code text-4xl text-blue-500",
-      title: "Web Development",
-      text: "We build responsive and scalable web applications tailored to your needs.",
+      name: "Birth Certificate",
+      text: "Identity Services",
+      icon: FaCertificate,
+    },
+    { name: "Birth Record Copy", text: "Identity Services", icon: FaFileAlt },
+    { name: "Marital Status Update", text: "Identity Services", icon: FaHeart },
+    { name: "Correction of Records", text: "Identity Services", icon: FaEdit },
+    { name: "Marriage Proof", text: "Identity Services", icon: FaUserFriends },
+    {
+      name: "Replacement ID Card",
+      text: "Identity Services",
+      icon: FaAddressCard,
+    },
+    { name: "Update Residence", text: "Address Update Services", icon: FaHome },
+    {
+      name: "Update Occupation",
+      text: "Employment Services",
+      icon: FaBriefcase,
+    },
+    { name: "Marriage Record Copy", text: "Marriage Affairs", icon: FaRing },
+    { name: "Divorce Record Copy", text: "Marriage Affairs", icon: FaGavel },
+    { name: "Death Certificate", text: "Death Affairs", icon: FaCross },
+    { name: "Death Record Copy", text: "Death Affairs", icon: FaBook },
+    {
+      name: "Certificate Machine Services",
+      text: "Identity Services",
+      icon: FaPrint,
     },
     {
-      icon: "fas fa-mobile-alt text-4xl text-green-500",
-      title: "Mobile Apps",
-      text: "Create cross-platform mobile applications with a seamless user experience.",
-    },
-    {
-      icon: "fas fa-cloud-upload-alt text-4xl text-purple-500",
-      title: "Cloud Solutions",
-      text: "Deploy and manage your applications on the cloud with our expert solutions.",
-    },
-    {
-      icon: "fas fa-chart-line text-4xl text-yellow-500",
-      title: "Data Analytics",
-      text: "Leverage data to make informed decisions with our advanced analytics tools.",
-    },
-  ];
-  const sampleData = [
-    {
-      icon: "fas fa-laptop-code text-5xl text-blue-500 mb-4",
-      name: "Web Development",
-      text: "We create responsive and scalable web applications tailored to your business needs.",
-    },
-    {
-      icon: "fas fa-mobile-alt text-5xl text-green-500 mb-4",
-      name: "Mobile Apps",
-      text: "Build cross-platform mobile apps with seamless user experiences.",
-    },
-    {
-      icon: "fas fa-cloud-upload-alt text-5xl text-purple-500 mb-4",
-      name: "Cloud Solutions",
-      text: "Deploy and manage your applications on the cloud with our expert solutions.",
-    },
-    {
-      icon: "fas fa-chart-line text-5xl text-yellow-500 mb-4",
-      name: "Data Analytics",
-      text: "Leverage data to make informed decisions with our advanced analytics tools.",
-    },
-    {
-      icon: "fas fa-shield-alt text-5xl text-red-500 mb-4",
-      name: "Cyber Security",
-      text: "Protect your business with our state-of-the-art security solutions.",
-    },
-    {
-      icon: "fas fa-cogs text-5xl text-indigo-500 mb-4",
-      name: "IT Consulting",
-      text: "Get expert advice to optimize your IT infrastructure and operations.",
+      name: "Advanced Machines Birth Certificate",
+      text: "Identity Services",
+      icon: FaRobot,
     },
   ];
+  const ProviderData = [
+    [
+      {
+        name: "Civil Status Sector",
+        text: "Providing civil status services.",
+        icons: [<FaBuilding />, <FaPhoneAlt />],
+      },
+      {
+        name: "Health Office",
+        text: "Providing health services to the community.",
+        icons: [<FaBuilding />, <FaAmbulance />],
+      },
+      {
+        name: "Ministry of Health and Population",
+        text: "Government body responsible for health services.",
+        icons: [<FaBuilding />, <FaAmbulance />],
+      },
+      {
+        name: "Governorate/Technological Center",
+        text: "Serving as a technological hub for governance.",
+        icons: [<FaBuilding />, <FaPhoneAlt />],
+      },
+      {
+        name: "City Authority",
+        text: "Managing city services and infrastructure.",
+        icons: [<FaCity />, <FaBuilding />],
+      },
+      {
+        name: "Local Administrative Units",
+        text: "Local governance and community support.",
+        icons: [<FaCogs />, <FaUsers />],
+      },
+      {
+        name: "Real Estate Registration and Documentation Authority",
+        text: "Managing real estate documentation and registration.",
+        icons: [<FaFileAlt />, <FaBuilding />],
+      },
+      {
+        name: "Cairo",
+        text: "Capital city of Egypt.",
+        icons: [<FaCity />],
+      },
+      {
+        name: "Gas Company (EGAS)",
+        text: "Providing natural gas services.",
+        icons: [<FaGasPump />],
+      },
+      {
+        name: "Water Company",
+        text: "Supplying water services.",
+        icons: [<FaWater />],
+      },
+      {
+        name: "Central (Telephone Exchange)",
+        text: "Providing telecommunication services.",
+        icons: [<FaPhoneAlt />],
+      },
+      {
+        name: "Egyptian Telecommunications Company",
+        text: "Telecommunications and internet services.",
+        icons: [<FaPhone />],
+      },
+      {
+        name: "Post Office",
+        text: "Postal and courier services.",
+        icons: [<FaEnvelope />],
+      },
+      {
+        name: "Supply Office",
+        text: "Managing supply and procurement services.",
+        icons: [<FaBox />],
+      },
+      {
+        name: "Directorate of Social Solidarity",
+        text: "Providing social welfare programs.",
+        icons: [<FaHandsHelping />],
+      },
+      {
+        name: "Nasser Social Bank",
+        text: "Bank providing social development loans.",
+        icons: [<FaUniversity />],
+      },
+      {
+        name: "Directorate of Labor",
+        text: "Regulating labor laws and services.",
+        icons: [<FaBriefcase />],
+      },
+      {
+        name: "Government Portal",
+        text: "Centralized government information platform.",
+        icons: [<FaLaptop />],
+      },
+      {
+        name: "Labor Office",
+        text: "Employment services and job registration.",
+        icons: [<FaUserTie />],
+      },
+      {
+        name: "Directorate of Health Affairs",
+        text: "Managing health services and facilities.",
+        icons: [<FaHospital />],
+      },
+      {
+        name: "Ministry of Labor",
+        text: "Overseeing labor and employment services.",
+        icons: [<FaBriefcase />],
+      },
+      {
+        name: "Egyptian Ambulance Authority",
+        text: "Emergency medical and ambulance services.",
+        icons: [<FaAmbulance />],
+      },
+      {
+        name: "General Authority for Health Insurance",
+        text: "Health insurance services and coverage.",
+        icons: [<FaUserMd />],
+      },
+      {
+        name: "Medical Council of the Governorate",
+        text: "Overseeing medical professionals and services.",
+        icons: [<FaStethoscope />],
+      },
+      {
+        name: "School",
+        text: "Providing educational services.",
+        icons: [<FaSchool />],
+      },
+      {
+        name: "Educational Administration",
+        text: "Managing educational institutions and programs.",
+        icons: [<FaChalkboardTeacher />],
+      },
+      {
+        name: "General Administration for Community Education",
+        text: "Promoting community-based education.",
+        icons: [<FaUsers />],
+      },
+      {
+        name: "Sector of Al-Azhar Institutes",
+        text: "Managing Islamic education institutions.",
+        icons: [<FaMosque />],
+      },
+      {
+        name: "Directorate of Education",
+        text: "Providing educational services at the regional level.",
+        icons: [<FaSchool />],
+      },
+      {
+        name: "General Authority for Illiteracy Eradication and Adult Education",
+        text: "Promoting literacy and adult education programs.",
+        icons: [<FaBookReader />],
+      },
+    ],
+  ];
+
   const initialState = {
     name: "",
     email: "",
@@ -68,8 +246,6 @@ const Home = (props) => {
     setState((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const clearState = () => setState({ ...initialState });
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(name, email, message);
@@ -77,9 +253,9 @@ const Home = (props) => {
 
   return (
     <header id="header">
-      <div className="relative bg-cover bg-center py-20">
-        <div className="absolute inset-0 bg-black/60"></div>
-        <div className="container mx-auto px-4 relative z-10">
+      <div className="relative py-20">
+        <div className="absolute inset-0 bg-[#09122C]"></div>
+        <div className="container mx-auto px-4 relative">
           <div className="flex justify-center">
             <div className="text-center max-w-2xl">
               <h1 className="text-4xl font-bold text-white mb-4">
@@ -90,42 +266,71 @@ const Home = (props) => {
                 view pages dedicated to your needs and life affairs, and
                 evaluate information and entities providing services.
               </p>
-              <a
-                href="#features"
-                className="px-8 py-3 bg-purple-900 text-white text-lg rounded-2xl shadow-lg hover:bg-purple-700 transition duration-300"
+              <Link
+                to="/app/profile"
+                className="px-8 py-3 bg-[#872341] text-white text-lg rounded-2xl shadow-lg hover:bg-[#BE3144] transition duration-300"
               >
                 Apply for Document
-              </a>
+              </Link>
             </div>
           </div>
         </div>
       </div>
+
       <div id="features" className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-800">
-              The most used services
+              The Most Used Services
             </h2>
           </div>
           <div className="flex flex-wrap justify-center">
-            {data ? (
-              data.map((d, i) => (
-                <div
-                  key={`${d.title}-${i}`}
-                  className="w-full sm:w-1/2 md:w-1/4 p-4"
-                >
-                  <div className="text-center">
-                    <i className={`${d.icon} mb-4`}></i>
-                    <h3 className="text-xl font-semibold text-gray-700">
-                      {d.title}
-                    </h3>
-                    <p className="text-gray-600">{d.text}</p>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p>Loading...</p>
-            )}
+            <div className="w-full sm:w-1/2 md:w-1/4 p-4">
+              <div className="text-center">
+                <i className="fas fa-file-upload mb-4 text-[#4b108d] text-3xl"></i>
+                <h3 className="text-xl font-semibold text-gray-700">
+                  Birthdate certificate
+                </h3>
+                <p className="text-gray-500">
+                  Submit official documents electronically for faster
+                  processing.
+                </p>
+              </div>
+            </div>
+            <div className="w-full sm:w-1/2 md:w-1/4 p-4">
+              <div className="text-center">
+                <i className="fas fa-search-location mb-4 text-[#4b108d] text-3xl"></i>
+                <h3 className="text-xl font-semibold text-gray-700">
+                  New or instead National ID
+                </h3>
+                <p className="text-gray-600">
+                  Track the current status of your submitted government
+                  documents.
+                </p>
+              </div>
+            </div>
+            <div className="w-full sm:w-1/2 md:w-1/4 p-4">
+              <div className="text-center">
+                <i className="fas fa-check-circle mb-4 text-[#4b108d] text-3xl"></i>
+                <h3 className="text-xl font-semibold text-gray-700">
+                  Obtaining travel permits
+                </h3>
+                <p className="text-gray-600">
+                  Verify the authenticity of electronic government records.
+                </p>
+              </div>
+            </div>
+            <div className="w-full sm:w-1/2 md:w-1/4 p-4">
+              <div className="text-center">
+                <i className="fas fa-calendar-check mb-4 text-[#4b108d] text-3xl"></i>
+                <h3 className="text-xl font-semibold text-gray-700">
+                  obtaining an automated passport
+                </h3>
+                <p className="text-gray-600">
+                  Book appointments with government departments online.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -134,29 +339,23 @@ const Home = (props) => {
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-800">Our Services</h2>
             <p className="text-gray-600 mt-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit duis sed
-              dapibus leonec.
+              Explore the essential services for managing personal and family
+              records.
             </p>
           </div>
           <div className="flex flex-wrap justify-center">
-            {data
-              ? data.map((d, i) => (
-                  <div
-                    key={`${d.name}-${i}`}
-                    className="w-full md:w-1/2 lg:w-1/3 p-4"
-                  >
-                    <div className="text-center bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
-                      <i className={d.icon}></i>
-                      <div className="service-desc mt-4">
-                        <h3 className="text-xl font-semibold text-gray-800">
-                          {d.name}
-                        </h3>
-                        <p className="text-gray-600 mt-2">{d.text}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))
-              : "Loading..."}
+            {data.map((service, index) => (
+              <div
+                key={index}
+                className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-4"
+              >
+                <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl h-[200px] flex flex-col justify-between">
+                  <service.icon className="text-[#872341] text-3xl mb-4" />
+                  <h3 className="text-lg font-semibold">{service.name}</h3>
+                  <p className="text-gray-600">{service.text}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -168,30 +367,29 @@ const Home = (props) => {
             </h2>
           </div>
           <div className="flex flex-wrap justify-center">
-            {data
-              ? data.map((d, i) => (
-                  <div
-                    key={`${d.name}-${i}`}
-                    className="w-full md:w-1/2 lg:w-1/3 p-4"
-                  >
-                    <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
-                      <div className="testimonial-image flex justify-center">
-                        <img
-                          src={d.img}
-                          alt={d.name}
-                          className="w-24 h-24 rounded-full object-cover"
-                        />
+            {ProviderData &&
+              ProviderData[0]?.map((d, i) => (
+                <div
+                  key={`${d.name}-${i}`}
+                  className="w-full md:w-1/2 lg:w-1/3 p-4"
+                >
+                  <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl h-[170px] flex flex-col justify-between">
+                    <div className="flex items-start">
+                      <div className="service-icon text-4xl text-[#872341]">
+                        {d?.icons[0] && (
+                          <div className="mr-4">{d.icons[0]}</div>
+                        )}
                       </div>
-                      <div className="testimonial-content mt-4 text-center">
+                      <div className="testimonial-content mt-4 text-left flex-1">
                         <p className="text-gray-600 italic">"{d.text}"</p>
                         <div className="testimonial-meta mt-4 font-semibold text-gray-800">
-                          - {d.name}
+                          {d.name}
                         </div>
                       </div>
                     </div>
                   </div>
-                ))
-              : "Loading..."}
+                </div>
+              ))}
           </div>
         </div>
       </div>
@@ -236,6 +434,19 @@ const Home = (props) => {
                       />
                     </div>
                   </div>
+                  <div className="w-full md:w-1/2 px-2 mb-4">
+                    <div className="form-group">
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="Mobile Number"
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Phone Number"
+                        required
+                        onChange={handleChange}
+                      />
+                    </div>
+                  </div>
                 </div>
                 <div className="mb-4">
                   <textarea
@@ -251,7 +462,7 @@ const Home = (props) => {
                 <div className="text-center">
                   <button
                     type="submit"
-                    className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors duration-300"
+                    className="bg-[#872341] text-white px-6 py-3 rounded-lg hover:bg-[#BE3144] transition-colors duration-300"
                   >
                     Send Message
                   </button>
@@ -266,52 +477,31 @@ const Home = (props) => {
                 <div className="contact-item mb-4">
                   <p className="text-gray-600">
                     <span className="flex items-center">
-                      <i className="fas fa-map-marker-alt text-blue-500 mr-2"></i>
+                      <i className="fas fa-map-marker-alt text-blue-500 "></i>
                       Address
                     </span>
-                    {props.data ? props.data.address : "loading"}
+                    Egypt, Suez
                   </p>
                 </div>
                 <div className="contact-item mb-4">
                   <p className="text-gray-600">
                     <span className="flex items-center">
-                      <i className="fas fa-phone text-blue-500 mr-2"></i>
+                      <i className="fas fa-phone text-blue-500 "></i>
                       Phone
                     </span>
-                    {props.data ? props.data.phone : "loading"}
+                    +201002020455
                   </p>
                 </div>
                 <div className="contact-item mb-4">
                   <p className="text-gray-600">
                     <span className="flex items-center">
-                      <i className="fas fa-envelope text-blue-500 mr-2"></i>
+                      <i className="fas fa-envelope text-blue-500 "></i>
                       Email
                     </span>
-                    {props.data ? props.data.email : "loading"}
+                    omarkhaled202080@gmail.com
                   </p>
                 </div>
               </div>
-            </div>
-          </div>
-          <div className="mt-12 text-center">
-            <div className="social">
-              <ul className="flex justify-center space-x-4">
-                <li>
-                  <a href={props.data ? props.data.facebook : "/"}>
-                    <i className="fab fa-facebook text-blue-500 hover:text-blue-600 text-2xl"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href={props.data ? props.data.twitter : "/"}>
-                    <i className="fab fa-twitter text-blue-400 hover:text-blue-500 text-2xl"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href={props.data ? props.data.youtube : "/"}>
-                    <i className="fab fa-youtube text-red-500 hover:text-red-600 text-2xl"></i>
-                  </a>
-                </li>
-              </ul>
             </div>
           </div>
         </div>
@@ -319,14 +509,8 @@ const Home = (props) => {
       <div id="footer" className="bg-gray-800 py-6">
         <div className="container mx-auto text-center">
           <p className="text-white">
-            &copy; 2023 Issaaf Kattan React Land Page Template. Design by{" "}
-            <a
-              href="http://www.templatewire.com"
-              rel="nofollow"
-              className="text-blue-400"
-            >
-              TemplateWire
-            </a>
+            &copy; 2025 E-government Documentation System Developed by{" "}
+            <span className="text-[#E17564]">Computer science students</span>
           </p>
         </div>
       </div>
