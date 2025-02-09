@@ -12,6 +12,7 @@ const ProfileSettings = lazy(() =>
 );
 const Profile = lazy(() => import("../pages/protected/profile"));
 const Home = lazy(() => import("../pages/protected/home"));
+const Providers = lazy(() => import("../pages/protected/providers"));
 
 const routes = [
   {
@@ -46,6 +47,10 @@ const routes = [
   {
     path: "/home",
     component: Home,
+  },
+  {
+    path: "/provider",
+    component: Providers,
   },
 ];
 

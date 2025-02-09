@@ -88,6 +88,14 @@ function Header() {
                 </Link>
               </li>
               <li>
+                <Link
+                  to="/app/provider"
+                  className="block py-2 hover:text-[#BE3144]"
+                >
+                  providers
+                </Link>
+              </li>
+              <li>
                 <a href="#features" className="block py-2 hover:text-[#BE3144]">
                   Digital Wallet
                 </a>

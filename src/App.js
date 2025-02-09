@@ -16,6 +16,7 @@ const Login = lazy(() => import("./pages/Login"));
 const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
 const Register = lazy(() => import("./pages/Register"));
 const Profile = lazy(() => import("./pages/protected/profile"));
+const Providers = lazy(() => import("./pages/protected/providers"));
 
 // Initializing different libraries
 initializeApp();
@@ -37,6 +38,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/providers" element={<Providers />} />
 
           {/* Place new routes over this */}
           <Route path="/app/*" element={<Layout />} />

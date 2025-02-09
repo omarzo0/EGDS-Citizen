@@ -2,21 +2,8 @@ import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  FaIdCard,
-  FaCertificate,
   FaFileAlt,
-  FaHeart,
-  FaEdit,
-  FaUserFriends,
-  FaAddressCard,
-  FaHome,
   FaBriefcase,
-  FaRing,
-  FaGavel,
-  FaCross,
-  FaBook,
-  FaPrint,
-  FaRobot,
   FaBuilding,
   FaPhoneAlt,
   FaAmbulance,
@@ -39,46 +26,31 @@ import {
   FaUsers,
   FaMosque,
   FaBookReader,
+  FaTrafficLight,
+  FaRunning,
+  FaBlind,
+  FaDeaf,
+  FaGraduationCap,
+  FaGavel,
+  FaBalanceScale,
+  FaLeaf,
+  FaPassport,
+  FaFlag,
+  FaTrain,
+  FaGlobe,
+  FaLandmark,
+  FaSeedling,
+  FaHome,
+  FaToolbox,
+  FaShieldAlt,
+  FaBug,
+  FaSubway,
+  FaClipboardList,
+  FaUtensils,
 } from "react-icons/fa";
+import { ProviderData } from "../../utils/providers";
 
 const Home = (props) => {
-  const data = [
-    { name: "National ID Card", text: "Identity Services", icon: FaIdCard },
-    {
-      name: "Birth Certificate",
-      text: "Identity Services",
-      icon: FaCertificate,
-    },
-    { name: "Birth Record Copy", text: "Identity Services", icon: FaFileAlt },
-    { name: "Marital Status Update", text: "Identity Services", icon: FaHeart },
-    { name: "Correction of Records", text: "Identity Services", icon: FaEdit },
-    { name: "Marriage Proof", text: "Identity Services", icon: FaUserFriends },
-    {
-      name: "Replacement ID Card",
-      text: "Identity Services",
-      icon: FaAddressCard,
-    },
-    { name: "Update Residence", text: "Address Update Services", icon: FaHome },
-    {
-      name: "Update Occupation",
-      text: "Employment Services",
-      icon: FaBriefcase,
-    },
-    { name: "Marriage Record Copy", text: "Marriage Affairs", icon: FaRing },
-    { name: "Divorce Record Copy", text: "Marriage Affairs", icon: FaGavel },
-    { name: "Death Certificate", text: "Death Affairs", icon: FaCross },
-    { name: "Death Record Copy", text: "Death Affairs", icon: FaBook },
-    {
-      name: "Certificate Machine Services",
-      text: "Identity Services",
-      icon: FaPrint,
-    },
-    {
-      name: "Advanced Machines Birth Certificate",
-      text: "Identity Services",
-      icon: FaRobot,
-    },
-  ];
   const ProviderData = [
     [
       {
@@ -231,8 +203,200 @@ const Home = (props) => {
         text: "Promoting literacy and adult education programs.",
         icons: [<FaBookReader />],
       },
+
+      {
+        name: "Ministry of Education Website",
+        text: "Official platform for educational services.",
+        icons: [<FaSchool />],
+      },
+      {
+        name: "General Traffic Department",
+        text: "Traffic regulations and licensing services.",
+        icons: [<FaTrafficLight />],
+      },
+      {
+        name: "Youth and Sports Directorate",
+        text: "Providing sports and youth activities.",
+        icons: [<FaRunning />],
+      },
+      {
+        name: "Ministry of Social Solidarity",
+        text: "Social protection and assistance services.",
+        icons: [<FaHandsHelping />],
+      },
+      {
+        name: "Al Noor School for the Blind",
+        text: "Specialized school for visually impaired students.",
+        icons: [<FaBlind />],
+      },
+      {
+        name: "Al Amal School for the Deaf",
+        text: "Educational support for deaf students.",
+        icons: [<FaDeaf />],
+      },
+      {
+        name: "School for Hearing-Impaired",
+        text: "Support and education for hearing-impaired students.",
+        icons: [<FaGraduationCap />],
+      },
+      {
+        name: "Intellectual Education Schools",
+        text: "Education for children with intellectual challenges.",
+        icons: [<FaUniversity />],
+      },
+      {
+        name: "Workers' Fund for Public and Private Sectors",
+        text: "Support fund for sector employees.",
+        icons: [<FaHandsHelping />],
+      },
+      {
+        name: "Defense Ministry Pension and Insurance",
+        text: "Insurance services for armed forces personnel.",
+        icons: [<FaFlag />],
+      },
+      {
+        name: "Primary Courts",
+        text: "Judicial services and legal proceedings.",
+        icons: [<FaGavel />],
+      },
+      {
+        name: "Appeals Courts",
+        text: "Handling cases for appeals and disputes.",
+        icons: [<FaBalanceScale />],
+      },
+      {
+        name: "Environmental Affairs Agency",
+        text: "Environmental regulation and preservation.",
+        icons: [<FaLeaf />],
+      },
+      {
+        name: "Real Estate Tax Directorate",
+        text: "Managing real estate tax collection.",
+        icons: [<FaLeaf />],
+      },
+      {
+        name: "Egyptian Tax Authority",
+        text: "Administration of national taxes.",
+        icons: [<FaLeaf />],
+      },
+      {
+        name: "Passport, Immigration, and Nationality Authority",
+        text: "Issuance and management of passports.",
+        icons: [<FaPassport />],
+      },
+      {
+        name: "Recruitment and Mobilization Authority",
+        text: "Military conscription management.",
+        icons: [<FaFlag />],
+      },
+      {
+        name: "Railway Authority Portal",
+        text: "Information and ticket booking services.",
+        icons: [<FaTrain />],
+      },
+      {
+        name: "General Work Permit Department",
+        text: "Issuance of work permits.",
+        icons: [<FaToolbox />],
+      },
+      {
+        name: "General Secondary Coordination Portal",
+        text: "University admission coordination.",
+        icons: [<FaGraduationCap />],
+      },
+      {
+        name: "Coordination Office",
+        text: "Higher education admission services.",
+        icons: [<FaUniversity />],
+      },
+      {
+        name: "Supreme Council of Universities",
+        text: "Policy coordination for higher education.",
+        icons: [<FaLandmark />],
+      },
+      {
+        name: "General Traffic Department (Ministry of Justice)",
+        text: "Judicial oversight of traffic services.",
+        icons: [<FaTrafficLight />],
+      },
+      {
+        name: "Egyptian General Drainage Projects Authority",
+        text: "Managing national drainage projects.",
+        icons: [<FaWater />],
+      },
+      {
+        name: "Irrigation Authority",
+        text: "Water resource management.",
+        icons: [<FaWater />],
+      },
+      {
+        name: "Agricultural Budget Fund Authority",
+        text: "Supporting agricultural development.",
+        icons: [<FaSeedling />],
+      },
+      {
+        name: "Groundwater Department",
+        text: "Managing groundwater resources.",
+        icons: [<FaGlobe />],
+      },
+      {
+        name: "Land Improvement Projects Executive Agency",
+        text: "Land development initiatives.",
+        icons: [<FaBox />],
+      },
+      {
+        name: "General Administrative Affairs Department",
+        text: "Handling internal administrative tasks.",
+        icons: [<FaHome />],
+      },
+      {
+        name: "Social Development Fund",
+        text: "Financial and social support services.",
+        icons: [<FaHandsHelping />],
+      },
+      {
+        name: "Social Rehabilitation Office",
+        text: "Providing social support and rehabilitation services.",
+        icons: [<FaUsers />],
+      },
+      {
+        name: "Egyptian Company for Metro Operation",
+        text: "Management and operation of the metro system.",
+        icons: [<FaSubway />],
+      },
+      {
+        name: "New Fardous City",
+        text: "Urban development and residential projects.",
+        icons: [<FaCity />],
+      },
+      {
+        name: "Public Security Sector - Forensic Investigation Department",
+        text: "Forensic evidence collection and investigations.",
+        icons: [<FaShieldAlt />],
+      },
+      {
+        name: "Public Security Sector - Licensing Department",
+        text: "Issuance and management of various licenses.",
+        icons: [<FaClipboardList />],
+      },
+      {
+        name: "Public Security Sector",
+        text: "General public security services.",
+        icons: [<FaShieldAlt />],
+      },
+      {
+        name: "Central Pest Control Department",
+        text: "Control and prevention of agricultural pests.",
+        icons: [<FaBug />],
+      },
+      {
+        name: "Regional Center for Food and Feed",
+        text: "Research and monitoring of food and animal feed quality.",
+        icons: [<FaUtensils />],
+      },
     ],
   ];
+  const [provider, setProvider] = useState(ProviderData);
 
   const initialState = {
     name: "",
@@ -250,7 +414,15 @@ const Home = (props) => {
     e.preventDefault();
     console.log(name, email, message);
   };
+  const ITEMS_PER_PAGE = 20;
+  const [currentPage, setCurrentPage] = useState(1);
 
+  const currentItems = ProviderData[0]?.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  const totalPages = Math.ceil((ProviderData[0]?.length || 0) / ITEMS_PER_PAGE);
   return (
     <header>
       <div className="relative py-20">
@@ -281,115 +453,51 @@ const Home = (props) => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-800">
-              The Most Used Services
+              All Service providers
             </h2>
           </div>
           <div className="flex flex-wrap justify-center">
-            <div className="w-full sm:w-1/2 md:w-1/4 p-4">
-              <div className="text-center">
-                <i className="fas fa-file-upload mb-4 text-[#4b108d] text-3xl"></i>
-                <h3 className="text-xl font-semibold text-gray-700">
-                  Birthdate certificate
-                </h3>
-                <p className="text-gray-500">
-                  Submit official documents electronically for faster
-                  processing.
-                </p>
-              </div>
-            </div>
-            <div className="w-full sm:w-1/2 md:w-1/4 p-4">
-              <div className="text-center">
-                <i className="fas fa-search-location mb-4 text-[#4b108d] text-3xl"></i>
-                <h3 className="text-xl font-semibold text-gray-700">
-                  New or instead National ID
-                </h3>
-                <p className="text-gray-600">
-                  Track the current status of your submitted government
-                  documents.
-                </p>
-              </div>
-            </div>
-            <div className="w-full sm:w-1/2 md:w-1/4 p-4">
-              <div className="text-center">
-                <i className="fas fa-check-circle mb-4 text-[#4b108d] text-3xl"></i>
-                <h3 className="text-xl font-semibold text-gray-700">
-                  Obtaining travel permits
-                </h3>
-                <p className="text-gray-600">
-                  Verify the authenticity of electronic government records.
-                </p>
-              </div>
-            </div>
-            <div className="w-full sm:w-1/2 md:w-1/4 p-4">
-              <div className="text-center">
-                <i className="fas fa-calendar-check mb-4 text-[#4b108d] text-3xl"></i>
-                <h3 className="text-xl font-semibold text-gray-700">
-                  obtaining an automated passport
-                </h3>
-                <p className="text-gray-600">
-                  Book appointments with government departments online.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800">Our Services</h2>
-            <p className="text-gray-600 mt-4">
-              Explore the essential services for managing personal and family
-              records.
-            </p>
-          </div>
-          <div className="flex flex-wrap justify-center">
-            {data.map((service, index) => (
+            {currentItems?.map((d, i) => (
               <div
-                key={index}
-                className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-4"
+                key={`${d.name}-${i}`}
+                className="w-full md:w-1/2 lg:w-1/3 p-4"
               >
-                <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl h-[200px] flex flex-col justify-between">
-                  <service.icon className="text-[#872341] text-3xl mb-4" />
-                  <h3 className="text-lg font-semibold">{service.name}</h3>
-                  <p className="text-gray-600">{service.text}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-      <div className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800">
-              Service providers
-            </h2>
-          </div>
-          <div className="flex flex-wrap justify-center">
-            {ProviderData &&
-              ProviderData[0]?.map((d, i) => (
-                <div
-                  key={`${d.name}-${i}`}
-                  className="w-full md:w-1/2 lg:w-1/3 p-4"
-                >
-                  <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl h-[170px] flex flex-col justify-between">
-                    <div className="flex items-start">
-                      <div className="service-icon text-4xl text-[#872341]">
-                        {d?.icons[0] && (
-                          <div className="mr-4">{d.icons[0]}</div>
-                        )}
-                      </div>
-                      <div className="testimonial-content mt-4 text-left flex-1">
-                        <p className="text-gray-600 italic">"{d.text}"</p>
-                        <div className="testimonial-meta mt-4 font-semibold text-gray-800">
-                          {d.name}
-                        </div>
+                <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl h-[170px] flex flex-col justify-between">
+                  <div className="flex items-start">
+                    <div className="service-icon text-4xl text-[#872341]">
+                      {d?.icons[0] && <div className="mr-4">{d.icons[0]}</div>}
+                    </div>
+                    <div className="testimonial-content mt-4 text-left flex-1">
+                      <p className="text-gray-600 italic">"{d.text}"</p>
+                      <div className="testimonial-meta mt-4 font-semibold text-gray-800">
+                        {d.name}
                       </div>
                     </div>
                   </div>
                 </div>
-              ))}
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-center mt-6 space-x-2">
+            <button
+              className="px-4 py-2 bg-gray-200 rounded-md disabled:opacity-50"
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+            >
+              Previous
+            </button>
+            <span className="px-4 py-2 bg-gray-50 text-gray-600">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              className="px-4 py-2 bg-gray-200 rounded-md disabled:opacity-50"
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+              }
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </button>
           </div>
         </div>
       </div>
