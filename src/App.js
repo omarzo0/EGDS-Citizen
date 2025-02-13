@@ -1,4 +1,4 @@
-import React, { lazy, useEffect } from "react";
+import React, { lazy, useEffect, Suspense } from "react";
 import "./App.css";
 import {
   BrowserRouter as Router,
@@ -9,7 +9,7 @@ import {
 import { themeChange } from "theme-change";
 import checkAuth from "./app/auth";
 import initializeApp from "./app/init";
-
+import { Spinner } from "@nextui-org/spinner";
 // Importing pages
 const Layout = lazy(() => import("./containers/Layout"));
 const Login = lazy(() => import("./pages/Login"));
@@ -17,6 +17,7 @@ const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
 const Register = lazy(() => import("./pages/Register"));
 const Profile = lazy(() => import("./pages/protected/profile"));
 const Providers = lazy(() => import("./pages/protected/providers"));
+const Digitalwallet = lazy(() => import("./pages/protected/digitalwallet"));
 
 // Initializing different libraries
 initializeApp();
@@ -33,21 +34,33 @@ function App() {
   return (
     <>
       <Router>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/providers" element={<Providers />} />
+        <Suspense
+          fallback={
+            <div className="w-full h-screen flex justify-center items-center">
+              <Spinner
+                color="#4b108d"
+                style={{ width: "180px", height: "180px" }}
+              />
+            </div>
+          }
+        >
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/providers" element={<Providers />} />
+            <Route path="/digitalwallet" element={<Digitalwallet />} />
 
-          {/* Place new routes over this */}
-          <Route path="/app/*" element={<Layout />} />
+            {/* Place new routes over this */}
+            <Route path="/app/*" element={<Layout />} />
 
-          <Route
-            path="*"
-            element={<Navigate to={token ? "/app/Home" : "/login"} replace />}
-          />
-        </Routes>
+            <Route
+              path="*"
+              element={<Navigate to={token ? "/app/Home" : "/login"} replace />}
+            />
+          </Routes>
+        </Suspense>
       </Router>
     </>
   );

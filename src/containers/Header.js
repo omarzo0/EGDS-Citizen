@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import BellIcon from "@heroicons/react/24/outline/BellIcon";
@@ -15,6 +15,8 @@ function Header() {
   const [currentTheme, setCurrentTheme] = useState(
     localStorage.getItem("theme")
   );
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const mobileMenuRef = useRef(null);
 
   useEffect(() => {
     themeChange(false);
@@ -28,7 +30,7 @@ function Header() {
         setCurrentTheme("light");
       }
     }
-  }, []);
+  }, [currentTheme]);
 
   const openNotification = () => {
     dispatch(
@@ -39,8 +41,30 @@ function Header() {
     );
   };
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  // Close the mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target)
+      ) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="navbar sticky top-0 bg-base-100 z-10 shadow-md ">
+    <div className="navbar sticky top-0 bg-base-100 z-10 shadow-md">
       <div className="flex-1">
         <label
           htmlFor="left-sidebar-drawer"
@@ -59,17 +83,27 @@ function Header() {
             EGR System
           </Link>
 
-          {/* Mobile Menu Button */}
-          <button className="block lg:hidden text-purple-900 focus:outline-none">
-            <div className="space-y-1">
-              <span className="block w-6 h-0.5 bg-purple-900"></span>
-              <span className="block w-6 h-0.5 bg-purple-900"></span>
-              <span className="block w-6 h-0.5 bg-purple-900"></span>
-            </div>
-          </button>
+          {/* Mobile Menu Button (Only visible when menu is closed) */}
+          {!isMobileMenuOpen && (
+            <button
+              onClick={toggleMobileMenu}
+              className="block lg:hidden text-[#872341] focus:outline-none"
+            >
+              <div className="space-y-1">
+                <span className="block w-6 h-0.5 bg-[#872341]"></span>
+                <span className="block w-6 h-0.5 bg-[#872341]"></span>
+                <span className="block w-6 h-0.5 bg-[#872341]"></span>
+              </div>
+            </button>
+          )}
 
           {/* Menu Links */}
-          <div className={`lg:flex items-center  w-full lg:w-auto`}>
+          <div
+            ref={mobileMenuRef}
+            className={`lg:flex items-center w-full lg:w-auto ${
+              isMobileMenuOpen ? "block mt-60 flex justify-center" : "hidden"
+            }`}
+          >
             <ul className="flex flex-col lg:flex-row lg:space-x-6 text-[#872341] mt-4 lg:mt-0">
               <li>
                 <Link
@@ -92,11 +126,14 @@ function Header() {
                   to="/app/provider"
                   className="block py-2 hover:text-[#BE3144]"
                 >
-                  providers
+                  Providers
                 </Link>
               </li>
               <li>
-                <a href="#features" className="block py-2 hover:text-[#BE3144]">
+                <a
+                  href="/app/digitalwallet"
+                  className="block py-2 hover:text-[#BE3144]"
+                >
                   Digital Wallet
                 </a>
               </li>
