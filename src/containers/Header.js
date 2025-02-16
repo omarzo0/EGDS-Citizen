@@ -8,8 +8,10 @@ import { RIGHT_DRAWER_TYPES } from "../utils/globalConstantUtil";
 import { themeChange } from "theme-change";
 import MoonIcon from "@heroicons/react/24/outline/MoonIcon";
 import SunIcon from "@heroicons/react/24/outline/SunIcon";
+import { useTranslation } from "react-i18next";
 
 function Header() {
+  const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
   const { noOfNotifications, pageTitle } = useSelector((state) => state.header);
   const [currentTheme, setCurrentTheme] = useState(
@@ -63,6 +65,10 @@ function Header() {
     };
   }, []);
 
+  const toggleLanguage = () => {
+    i18n.changeLanguage(i18n.language === "en" ? "ar" : "en");
+  };
+
   return (
     <div className="navbar sticky top-0 bg-base-100 z-10 shadow-md">
       <div className="flex-1">
@@ -110,7 +116,7 @@ function Header() {
                   to="/app/Home"
                   className="block py-2 hover:text-[#BE3144]"
                 >
-                  Home
+                  {t("home")}
                 </Link>
               </li>
               <li>
@@ -118,7 +124,7 @@ function Header() {
                   to="/app/profile"
                   className="block py-2 hover:text-[#BE3144]"
                 >
-                  Profile
+                  {t("profile")}
                 </Link>
               </li>
               <li>
@@ -126,7 +132,7 @@ function Header() {
                   to="/app/provider"
                   className="block py-2 hover:text-[#BE3144]"
                 >
-                  Providers
+                  {t("providers2")}
                 </Link>
               </li>
               <li>
@@ -134,12 +140,12 @@ function Header() {
                   href="/app/digitalwallet"
                   className="block py-2 hover:text-[#BE3144]"
                 >
-                  Digital Wallet
+                  {t("digital_wallet")}
                 </a>
               </li>
               <li>
                 <a href="#about" className="block py-2 hover:text-[#BE3144]">
-                  Documents
+                  {t("documents")}
                 </a>
               </li>
               <li>
@@ -147,20 +153,21 @@ function Header() {
                   to="/app/settings-profile"
                   className="block py-2 hover:text-[#BE3144]"
                 >
-                  Settings
+                  {t("settings")}
                 </Link>
               </li>
               <li>
                 <Link to="/login" className="block py-2 hover:text-[#BE3144]">
-                  Login
+                  {t("login")}
                 </Link>
               </li>
             </ul>
           </div>
         </div>
+
         <div className="flex-none">
           <button
-            className="btn btn-ghost mr-6 btn-circle"
+            className="btn btn-ghost mr-2 btn-circle"
             onClick={openNotification}
           >
             <div className="indicator">
@@ -173,6 +180,11 @@ function Header() {
             </div>
           </button>
         </div>
+
+        {/* Language Switch Button */}
+        <button onClick={toggleLanguage} className="text-[#872341] mr-6">
+          {i18n.language === "en" ? "العربية" : "English"}
+        </button>
       </nav>
     </div>
   );

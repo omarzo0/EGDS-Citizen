@@ -13,9 +13,8 @@ import {
 import { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import { styled } from "@mui/system";
-import NotificationBodyRightDrawer from "../../features/common/components/NotificationBodyRightDrawer";
 
-export default function ProfilePage() {
+function ProfilePage() {
   const [tabValue, setTabValue] = useState(0);
 
   const handleTabChange = (event, newValue) => {
@@ -189,3 +188,4 @@ export default function ProfilePage() {
     </Box>
   );
 }
+export default ProfilePage;

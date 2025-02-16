@@ -6,15 +6,22 @@ import reportWebVitals from "./reportWebVitals";
 import store from "./app/store";
 import { Provider } from "react-redux";
 import SuspenseContent from "./containers/SuspenseContent";
+import NoInternetConnection from "./pages/NoInternetConnection";
+import { I18nextProvider } from "react-i18next";
+import i18n from "./i18n";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Suspense fallback={<SuspenseContent />}>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </Suspense>
+    <NoInternetConnection>
+      <I18nextProvider i18n={i18n}>
+        <Suspense fallback={<SuspenseContent />}>
+          <Provider store={store}>
+            <App />
+          </Provider>
+        </Suspense>
+      </I18nextProvider>
+    </NoInternetConnection>
   </React.StrictMode>
 );
 

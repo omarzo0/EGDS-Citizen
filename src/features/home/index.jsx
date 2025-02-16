@@ -40,200 +40,285 @@ import {
   FaMosque,
   FaBookReader,
 } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 const Home = (props) => {
+  const { t } = useTranslation();
+
   const data = [
-    { name: "National ID Card", text: "Identity Services", icon: FaIdCard },
     {
-      name: "Birth Certificate",
-      text: "Identity Services",
+      name: t("services2.nationalIdCard"),
+      text: t("services2.identityServices"),
+      icon: FaIdCard,
+    },
+    {
+      name: t("services2.birthCertificate"),
+      text: t("services2.identityServices"),
       icon: FaCertificate,
     },
-    { name: "Birth Record Copy", text: "Identity Services", icon: FaFileAlt },
-    { name: "Marital Status Update", text: "Identity Services", icon: FaHeart },
-    { name: "Correction of Records", text: "Identity Services", icon: FaEdit },
-    { name: "Marriage Proof", text: "Identity Services", icon: FaUserFriends },
     {
-      name: "Replacement ID Card",
-      text: "Identity Services",
+      name: t("services2.birthRecordCopy"),
+      text: t("services2.identityServices"),
+      icon: FaFileAlt,
+    },
+    {
+      name: t("services2.maritalStatusUpdate"),
+      text: t("services2.identityServices"),
+      icon: FaHeart,
+    },
+    {
+      name: t("services2.correctionOfRecords"),
+      text: t("services2.identityServices"),
+      icon: FaEdit,
+    },
+    {
+      name: t("services2.marriageProof"),
+      text: t("services2.identityServices"),
+      icon: FaUserFriends,
+    },
+    {
+      name: t("services2.replacementIdCard"),
+      text: t("services2.identityServices"),
       icon: FaAddressCard,
     },
-    { name: "Update Residence", text: "Address Update Services", icon: FaHome },
     {
-      name: "Update Occupation",
-      text: "Employment Services",
+      name: t("services2.updateResidence"),
+      text: t("services2.addressUpdateServices"),
+      icon: FaHome,
+    },
+    {
+      name: t("services2.updateOccupation"),
+      text: t("services2.employmentServices"),
       icon: FaBriefcase,
     },
-    { name: "Marriage Record Copy", text: "Marriage Affairs", icon: FaRing },
-    { name: "Divorce Record Copy", text: "Marriage Affairs", icon: FaGavel },
-    { name: "Death Certificate", text: "Death Affairs", icon: FaCross },
-    { name: "Death Record Copy", text: "Death Affairs", icon: FaBook },
     {
-      name: "Certificate Machine Services",
-      text: "Identity Services",
+      name: t("services2.marriageRecordCopy"),
+      text: t("services2.marriageAffairs"),
+      icon: FaRing,
+    },
+    {
+      name: t("services2.divorceRecordCopy"),
+      text: t("services2.marriageAffairs"),
+      icon: FaGavel,
+    },
+    {
+      name: t("services2.deathCertificate"),
+      text: t("services2.deathAffairs"),
+      icon: FaCross,
+    },
+    {
+      name: t("services2.deathRecordCopy"),
+      text: t("services2.deathAffairs"),
+      icon: FaBook,
+    },
+    {
+      name: t("services2.certificateMachineServices"),
+      text: t("services2.identityServices"),
       icon: FaPrint,
     },
     {
-      name: "Advanced Machines Birth Certificate",
-      text: "Identity Services",
+      name: t("services2.advancedMachinesBirthCertificate"),
+      text: t("services2.identityServices"),
       icon: FaRobot,
     },
   ];
+
   const ProviderData = [
     [
       {
-        name: "Civil Status Sector",
-        text: "Providing civil status services.",
+        name: t("Civil Status Sector"),
+        text: t("Providing civil status services."),
         icons: [<FaBuilding />, <FaPhoneAlt />],
       },
       {
-        name: "Health Office",
-        text: "Providing health services to the community.",
+        name: t("Health Office"),
+        text: t("Providing health services to the community."),
         icons: [<FaBuilding />, <FaAmbulance />],
       },
       {
-        name: "Ministry of Health and Population",
-        text: "Government body responsible for health services.",
+        name: t("Ministry of Health and Population"),
+        text: t("Government body responsible for health services."),
         icons: [<FaBuilding />, <FaAmbulance />],
       },
       {
-        name: "Governorate/Technological Center",
-        text: "Serving as a technological hub for governance.",
+        name: t("Governorate/Technological Center"),
+        text: t("Serving as a technological hub for governance."),
         icons: [<FaBuilding />, <FaPhoneAlt />],
       },
       {
-        name: "City Authority",
-        text: "Managing city services and infrastructure.",
+        name: t("City Authority"),
+        text: t("Managing city services and infrastructure."),
         icons: [<FaCity />, <FaBuilding />],
       },
       {
-        name: "Local Administrative Units",
-        text: "Local governance and community support.",
+        name: t("Local Administrative Units"),
+        text: t("Local governance and community support."),
         icons: [<FaCogs />, <FaUsers />],
       },
       {
-        name: "Real Estate Registration and Documentation Authority",
-        text: "Managing real estate documentation and registration.",
+        name: t("Real Estate Registration and Documentation Authority"),
+        text: t("Managing real estate documentation and registration."),
         icons: [<FaFileAlt />, <FaBuilding />],
       },
       {
-        name: "Cairo",
-        text: "Capital city of Egypt.",
+        name: t("Cairo"),
+        text: t("Capital city of Egypt."),
         icons: [<FaCity />],
       },
       {
-        name: "Gas Company (EGAS)",
-        text: "Providing natural gas services.",
+        name: t("Gas Company (EGAS)"),
+        text: t("Providing natural gas services."),
         icons: [<FaGasPump />],
       },
       {
-        name: "Water Company",
-        text: "Supplying water services.",
+        name: t("Water Company"),
+        text: t("Supplying water services."),
         icons: [<FaWater />],
       },
       {
-        name: "Central (Telephone Exchange)",
-        text: "Providing telecommunication services.",
+        name: t("Central (Telephone Exchange)"),
+        text: t("Providing telecommunication services."),
         icons: [<FaPhoneAlt />],
       },
       {
-        name: "Egyptian Telecommunications Company",
-        text: "Telecommunications and internet services.",
+        name: t("Egyptian Telecommunications Company"),
+        text: t("Telecommunications and internet services."),
         icons: [<FaPhone />],
       },
       {
-        name: "Post Office",
-        text: "Postal and courier services.",
+        name: t("Post Office"),
+        text: t("Postal and courier services."),
         icons: [<FaEnvelope />],
       },
       {
-        name: "Supply Office",
-        text: "Managing supply and procurement services.",
+        name: t("Supply Office"),
+        text: t("Managing supply and procurement services."),
         icons: [<FaBox />],
       },
       {
-        name: "Directorate of Social Solidarity",
-        text: "Providing social welfare programs.",
+        name: t("Directorate of Social Solidarity"),
+        text: t("Providing social welfare programs."),
         icons: [<FaHandsHelping />],
       },
       {
-        name: "Nasser Social Bank",
-        text: "Bank providing social development loans.",
+        name: t("Nasser Social Bank"),
+        text: t("Bank providing social development loans."),
         icons: [<FaUniversity />],
       },
       {
-        name: "Directorate of Labor",
-        text: "Regulating labor laws and services.",
+        name: t("Directorate of Labor"),
+        text: t("Regulating labor laws and services."),
         icons: [<FaBriefcase />],
       },
       {
-        name: "Government Portal",
-        text: "Centralized government information platform.",
+        name: t("Government Portal"),
+        text: t("Centralized government information platform."),
         icons: [<FaLaptop />],
       },
       {
-        name: "Labor Office",
-        text: "Employment services and job registration.",
+        name: t("Labor Office"),
+        text: t("Employment services and job registration."),
         icons: [<FaUserTie />],
       },
       {
-        name: "Directorate of Health Affairs",
-        text: "Managing health services and facilities.",
+        name: t("Directorate of Health Affairs"),
+        text: t("Managing health services and facilities."),
         icons: [<FaHospital />],
       },
       {
-        name: "Ministry of Labor",
-        text: "Overseeing labor and employment services.",
+        name: t("Ministry of Labor"),
+        text: t("Overseeing labor and employment services."),
         icons: [<FaBriefcase />],
       },
       {
-        name: "Egyptian Ambulance Authority",
-        text: "Emergency medical and ambulance services.",
+        name: t("Egyptian Ambulance Authority"),
+        text: t("Emergency medical and ambulance services."),
         icons: [<FaAmbulance />],
       },
       {
-        name: "General Authority for Health Insurance",
-        text: "Health insurance services and coverage.",
+        name: t("General Authority for Health Insurance"),
+        text: t("Health insurance services and coverage."),
         icons: [<FaUserMd />],
       },
       {
-        name: "Medical Council of the Governorate",
-        text: "Overseeing medical professionals and services.",
+        name: t("Medical Council of the Governorate"),
+        text: t("Overseeing medical professionals and services."),
         icons: [<FaStethoscope />],
       },
       {
-        name: "School",
-        text: "Providing educational services.",
+        name: t("School"),
+        text: t("Providing educational services."),
         icons: [<FaSchool />],
       },
       {
-        name: "Educational Administration",
-        text: "Managing educational institutions and programs.",
+        name: t("Educational Administration"),
+        text: t("Managing educational institutions and programs."),
         icons: [<FaChalkboardTeacher />],
       },
       {
-        name: "General Administration for Community Education",
-        text: "Promoting community-based education.",
+        name: t("General Administration for Community Education"),
+        text: t("Promoting community-based education."),
         icons: [<FaUsers />],
       },
       {
-        name: "Sector of Al-Azhar Institutes",
-        text: "Managing Islamic education institutions.",
+        name: t("Sector of Al-Azhar Institutes"),
+        text: t("Managing Islamic education institutions."),
         icons: [<FaMosque />],
       },
       {
-        name: "Directorate of Education",
-        text: "Providing educational services at the regional level.",
+        name: t("Directorate of Education"),
+        text: t("Providing educational services at the regional level."),
         icons: [<FaSchool />],
       },
       {
-        name: "General Authority for Illiteracy Eradication and Adult Education",
-        text: "Promoting literacy and adult education programs.",
+        name: t(
+          "General Authority for Illiteracy Eradication and Adult Education"
+        ),
+        text: t("Promoting literacy and adult education programs."),
         icons: [<FaBookReader />],
       },
     ],
   ];
 
+  const serviceIcons = [
+    FaIdCard,
+    FaCertificate,
+    FaFileAlt,
+    FaHeart,
+    FaEdit,
+    FaUserFriends,
+    FaAddressCard,
+    FaHome,
+    FaBriefcase,
+    FaRing,
+    FaGavel,
+    FaCross,
+    FaBook,
+    FaPrint,
+    FaRobot,
+    FaBuilding,
+    FaPhoneAlt,
+    FaAmbulance,
+    FaCity,
+    FaCogs,
+    FaGasPump,
+    FaWater,
+    FaPhone,
+    FaEnvelope,
+    FaBox,
+    FaHandsHelping,
+    FaUniversity,
+    FaLaptop,
+    FaUserTie,
+    FaHospital,
+    FaUserMd,
+    FaStethoscope,
+    FaSchool,
+    FaChalkboardTeacher,
+    FaUsers,
+    FaMosque,
+    FaBookReader,
+  ];
   const initialState = {
     name: "",
     email: "",
@@ -259,18 +344,16 @@ const Home = (props) => {
           <div className="flex justify-center">
             <div className="text-center max-w-2xl">
               <h1 className="text-4xl font-bold text-white mb-4">
-                E-government Documentation System
+                {t("header.title")}
               </h1>
               <p className="text-white text-lg mb-6">
-                Creating an account enables you to maintain your information,
-                view pages dedicated to your needs and life affairs, and
-                evaluate information and entities providing services.
+                {t("header.description")}
               </p>
               <Link
                 to="/app/profile"
                 className="px-8 py-3 bg-[#872341] text-white text-lg rounded-2xl shadow-lg hover:bg-[#BE3144] transition duration-300"
               >
-                Apply for Document
+                {t("header.applyBtn")}
               </Link>
             </div>
           </div>
@@ -281,66 +364,42 @@ const Home = (props) => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-800">
-              The Most Used Services
+              {t("services.mostUsed")}
             </h2>
           </div>
           <div className="flex flex-wrap justify-center">
-            <div className="w-full sm:w-1/2 md:w-1/4 p-4">
-              <div className="text-center">
-                <i className="fas fa-file-upload mb-4 text-[#4b108d] text-3xl"></i>
-                <h3 className="text-xl font-semibold text-gray-700">
-                  Birthdate certificate
-                </h3>
-                <p className="text-gray-500">
-                  Submit official documents electronically for faster
-                  processing.
-                </p>
-              </div>
-            </div>
-            <div className="w-full sm:w-1/2 md:w-1/4 p-4">
-              <div className="text-center">
-                <i className="fas fa-search-location mb-4 text-[#4b108d] text-3xl"></i>
-                <h3 className="text-xl font-semibold text-gray-700">
-                  New or instead National ID
-                </h3>
-                <p className="text-gray-600">
-                  Track the current status of your submitted government
-                  documents.
-                </p>
-              </div>
-            </div>
-            <div className="w-full sm:w-1/2 md:w-1/4 p-4">
-              <div className="text-center">
-                <i className="fas fa-check-circle mb-4 text-[#4b108d] text-3xl"></i>
-                <h3 className="text-xl font-semibold text-gray-700">
-                  Obtaining travel permits
-                </h3>
-                <p className="text-gray-600">
-                  Verify the authenticity of electronic government records.
-                </p>
-              </div>
-            </div>
-            <div className="w-full sm:w-1/2 md:w-1/4 p-4">
-              <div className="text-center">
-                <i className="fas fa-calendar-check mb-4 text-[#4b108d] text-3xl"></i>
-                <h3 className="text-xl font-semibold text-gray-700">
-                  obtaining an automated passport
-                </h3>
-                <p className="text-gray-600">
-                  Book appointments with government departments online.
-                </p>
-              </div>
-            </div>
+            {t("services.servicesList", { returnObjects: true }).map(
+              (service, index) => (
+                <div
+                  key={index}
+                  className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-4"
+                >
+                  <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl h-[200px] flex flex-col justify-between">
+                    {/* Using the corresponding icon from the serviceIcons array */}
+                    {React.createElement(
+                      serviceIcons[index % serviceIcons.length],
+                      {
+                        className: "text-[#872341] text-3xl mb-4",
+                      }
+                    )}
+                    <h3 className="text-lg font-semibold">{service.title}</h3>
+                    <p className="text-gray-600">{service.description}</p>
+                  </div>
+                </div>
+              )
+            )}
           </div>
         </div>
       </div>
+
       <div className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800">Our Services</h2>
+            <h2 className="text-3xl font-bold text-gray-800">
+              {t("services2.ourServices")}
+            </h2>
             <p className="text-gray-600 mt-4">
-              Explore the essential services for managing personal and family
-              records.
+              {t("services2.exploreServices")}
             </p>
           </div>
           <div className="flex flex-wrap justify-center">
@@ -363,7 +422,7 @@ const Home = (props) => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-800">
-              Service providers
+              {t("providers2")}
             </h2>
           </div>
           <div className="flex flex-wrap justify-center">
@@ -373,17 +432,19 @@ const Home = (props) => {
                   key={`${d.name}-${i}`}
                   className="w-full md:w-1/2 lg:w-1/3 p-4"
                 >
-                  <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl h-[170px] flex flex-col justify-between">
+                  <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition-shadow duration-300 h-[170px] flex flex-col justify-between">
                     <div className="flex items-start">
                       <div className="service-icon text-4xl text-[#872341]">
                         {d?.icons[0] && (
-                          <div className="mr-4">{d.icons[0]}</div>
+                          <div className="mr-4" aria-hidden="true">
+                            {d.icons[0]}
+                          </div>
                         )}
                       </div>
                       <div className="testimonial-content mt-4 text-left flex-1">
-                        <p className="text-gray-600 italic">"{d.text}"</p>
+                        <p className="text-gray-600 ">{d.text}</p>
                         <div className="testimonial-meta mt-4 font-semibold text-gray-800">
-                          {d.name}
+                          {t(d.name)}
                         </div>
                       </div>
                     </div>
@@ -393,6 +454,7 @@ const Home = (props) => {
           </div>
         </div>
       </div>
+
       <div className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap">
