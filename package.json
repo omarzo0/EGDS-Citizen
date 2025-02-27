@@ -21,6 +21,7 @@
     "@mui/lab": "^6.0.0-beta.26",
     "@mui/material": "^6.4.6",
     "@mui/system": "^6.4.6",
+    "@nextui-org/react": "^2.6.11",
     "@nextui-org/spinner": "^2.2.6",
     "@nextui-org/theme": "^2.4.5",
     "@reduxjs/toolkit": "^1.9.0",
