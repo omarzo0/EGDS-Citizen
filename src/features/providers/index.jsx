@@ -421,7 +421,11 @@ const Home = (props) => {
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
   );
+  const [searchQuery, setSearchQuery] = useState("");
 
+  const filteredItems = currentItems?.filter((d) =>
+    d.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
   const totalPages = Math.ceil((ProviderData[0]?.length || 0) / ITEMS_PER_PAGE);
   return (
     <header>
@@ -456,27 +460,48 @@ const Home = (props) => {
               All Service providers
             </h2>
           </div>
+          <div className="py-6 bg-gray-100">
+            <div className="container mx-auto px-4">
+              <div className="flex justify-center">
+                <input
+                  type="text"
+                  placeholder="Search for a service provider..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full max-w-md p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+            </div>
+          </div>
           <div className="flex flex-wrap justify-center">
-            {currentItems?.map((d, i) => (
-              <div
-                key={`${d.name}-${i}`}
-                className="w-full md:w-1/2 lg:w-1/3 p-4"
-              >
-                <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl h-[170px] flex flex-col justify-between">
-                  <div className="flex items-start">
-                    <div className="service-icon text-4xl text-[#872341]">
-                      {d?.icons[0] && <div className="mr-4">{d.icons[0]}</div>}
-                    </div>
-                    <div className="testimonial-content mt-4 text-left flex-1">
-                      <p className="text-gray-600 italic">"{d.text}"</p>
-                      <div className="testimonial-meta mt-4 font-semibold text-gray-800">
-                        {d.name}
+            {filteredItems.length > 0 ? (
+              filteredItems.map((d, i) => (
+                <div
+                  key={`${d.name}-${i}`}
+                  className="w-full md:w-1/2 lg:w-1/3 p-4"
+                >
+                  <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl h-[170px] flex flex-col justify-between">
+                    <div className="flex items-start">
+                      <div className="service-icon text-4xl text-[#872341]">
+                        {d?.icons[0] && (
+                          <div className="mr-4">{d.icons[0]}</div>
+                        )}
+                      </div>
+                      <div className="testimonial-content mt-4 text-left flex-1">
+                        <p className="text-gray-600 italic">"{d.text}"</p>
+                        <div className="testimonial-meta mt-4 font-semibold text-gray-800">
+                          {d.name}
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p className="text-gray-600 text-center w-full">
+                No results found.
+              </p>
+            )}
           </div>
           <div className="flex justify-center mt-6 space-x-2">
             <button

@@ -111,6 +111,7 @@ function ProfilePage() {
             >
               <Tab label="Account Settings" />
               <Tab label="Digital Wallet" />
+              <Tab label="Reminders" />
             </CustomTabs>
 
             {tabValue === 0 && (
