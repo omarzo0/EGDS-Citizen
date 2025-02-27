@@ -32,7 +32,7 @@
     "capitalize-the-first-letter": "^1.0.8",
     "chart.js": "^4.0.1",
     "dayjs": "^1.11.7",
-    "i18next": "^24.2.2",
+    "i18next": "^23.2.3",
     "i18next-browser-languagedetector": "^8.0.3",
     "i18next-http-backend": "^3.0.2",
     "lucide-react": "^0.475.0",
