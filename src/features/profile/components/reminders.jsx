@@ -1,11 +1,9 @@
-"use client";
-
 import { useState } from "react";
 import { CalendarIcon, Clock } from "lucide-react";
 import { format, isBefore, addMonths, parseISO } from "date-fns";
 import { Card, CardContent, CardHeader } from "../components/ui/card";
 
-import { Badge } from "../components/ui/badge";
+import { Badge } from "@mui/material";
 
 // Mock data for reminders
 const mockReminders = [

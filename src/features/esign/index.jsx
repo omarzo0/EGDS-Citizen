@@ -1,20 +1,22 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { Button } from "../../lib/ui/button";
+// MUI Imports
 import {
+  Button,
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
-  CardTitle,
-} from "../../lib/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../lib/ui/tabs";
-import { Badge } from "../../lib/ui/badge";
-import DocumentUploader from "./components/document-uploader";
+  CardActions,
+  Typography,
+  Tabs,
+  Tab,
+  Badge,
+} from "@mui/material";
+import { DocumentUploader } from "./components/document-uploader";
 
 function Sign() {
-  const [activeTab1, setActiveTab1] = useState("documents");
+  const [activeTab, setActiveTab] = useState(0);
 
   // Mock data for documents
   const documents = [
@@ -44,17 +46,13 @@ function Sign() {
   const getStatusBadge = (status) => {
     switch (status) {
       case "signed":
-        return <Badge className="bg-green-500">Signed</Badge>;
+        return <Badge badgeContent="Signed" color="success" />;
       case "pending":
-        return (
-          <Badge variant="outline" className="text-yellow-600">
-            Pending
-          </Badge>
-        );
+        return <Badge badgeContent="Pending" color="warning" />;
       case "processing":
-        return <Badge className="bg-blue-500">Processing</Badge>;
+        return <Badge badgeContent="Processing" color="primary" />;
       default:
-        return <Badge variant="outline">Unknown</Badge>;
+        return <Badge badgeContent="Unknown" />;
     }
   };
 
@@ -62,75 +60,78 @@ function Sign() {
     <div className="min-h-screen bg-slate-50">
       <main className="container mx-auto px-4 py-8">
         <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-gray-900">
-            Citizen Dashboard
-          </h2>
-          <Button onClick={() => setActiveTab1("upload")}>
+          <Typography variant="h4" component="h2" className="font-bold">
+            E-signature panel system
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setActiveTab(1)}
+          >
             Upload New Document
           </Button>
         </div>
 
         <Tabs
-          value={activeTab1}
-          onValueChange={setActiveTab1}
+          value={activeTab}
+          onChange={(event, newValue) => setActiveTab(newValue)}
           className="w-full"
+          indicatorColor="primary"
         >
-          <TabsList className="mb-6 grid w-full grid-cols-3">
-            <TabsTrigger value="documents">My Documents</TabsTrigger>
-            <TabsTrigger value="upload">Upload Document</TabsTrigger>
-            <TabsTrigger value="profile">Profile</TabsTrigger>
-          </TabsList>
+          <Tab label="My Documents" />
+          <Tab label="Upload Document" />
+        </Tabs>
 
-          <TabsContent value="documents">
-            <div className="grid gap-4">
-              {documents.map((doc) => (
-                <Card key={doc.id}>
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="text-lg font-semibold">{doc.title}</h3>
-                        <div className="mt-1 flex items-center gap-4">
-                          <span className="text-sm text-gray-500">
-                            Submitted: {doc.dateSubmitted}
-                          </span>
-                          <span className="text-sm text-gray-500">
-                            Department: {doc.department}
-                          </span>
-                          {getStatusBadge(doc.status)}
-                        </div>
-                      </div>
-                      <div className="flex gap-2">
-                        <Button variant="outline" size="sm">
-                          View
-                        </Button>
-                        {doc.status === "signed" && (
-                          <Button size="sm">Download</Button>
-                        )}
+        {activeTab === 0 && (
+          <div className="grid gap-4">
+            {documents.map((doc) => (
+              <Card key={doc.id} variant="outlined">
+                <CardContent>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <Typography variant="h6">{doc.title}</Typography>
+                      <div className="mt-1 flex items-center gap-4">
+                        <Typography variant="body2" color="textSecondary">
+                          Submitted: {doc.dateSubmitted}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary">
+                          Department: {doc.department}
+                        </Typography>
+                        {getStatusBadge(doc.status)}
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
+                    <div className="flex gap-2">
+                      <Button variant="outlined" size="small">
+                        View
+                      </Button>
+                      {doc.status === "signed" && (
+                        <Button variant="contained" size="small">
+                          Download
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
 
-          <TabsContent value="upload">
-            <Card>
-              <CardHeader>
-                <CardTitle>Upload New Document</CardTitle>
-                <CardDescription>
-                  Upload your document for processing and e-signature by
-                  government officials.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <DocumentUploader />
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+        {activeTab === 1 && (
+          <Card>
+            <CardHeader title="Upload New Document" />
+            <CardContent>
+              <Typography variant="body2">
+                Upload your document for processing and e-signature by
+                government officials.
+              </Typography>
+              <DocumentUploader />
+            </CardContent>
+          </Card>
+        )}
       </main>
     </div>
   );
 }
+
 export default Sign;
