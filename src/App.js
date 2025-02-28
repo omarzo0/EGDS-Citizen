@@ -18,6 +18,7 @@ const Register = lazy(() => import("./pages/Register"));
 const Profile = lazy(() => import("./pages/protected/profile"));
 const Providers = lazy(() => import("./pages/protected/providers"));
 const Digitalwallet = lazy(() => import("./pages/protected/digitalwallet"));
+const Departments = lazy(() => import("./pages/protected/departments"));
 
 // Initializing different libraries
 initializeApp();
@@ -51,6 +52,10 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/providers" element={<Providers />} />
             <Route path="/digitalwallet" element={<Digitalwallet />} />
+            <Route
+              path="/departments/:departmentId"
+              element={<Departments />}
+            />
 
             {/* Place new routes over this */}
             <Route path="/app/*" element={<Layout />} />

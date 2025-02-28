@@ -455,127 +455,78 @@ const Home = (props) => {
         </div>
       </div>
 
-      <div className="py-16 bg-gray-50">
+      <footer className="bg-gray-800 py-12 text-white">
         <div className="container mx-auto px-4">
-          <div className="flex flex-wrap">
-            <div className="w-full lg:w-8/12">
-              <div className="mb-12 text-center">
-                <h2 className="text-3xl font-bold text-gray-800">
-                  Get In Touch
-                </h2>
-                <p className="text-gray-600 mt-4">
-                  Please fill out the form below to send us an email, and we
-                  will get back to you as soon as possible.
-                </p>
-              </div>
-              <form name="sentMessage" validate onSubmit={handleSubmit}>
-                <div className="flex flex-wrap -mx-2">
-                  <div className="w-full md:w-1/2 px-2 mb-4">
-                    <div className="form-group">
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Name"
-                        required
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-                  <div className="w-full md:w-1/2 px-2 mb-4">
-                    <div className="form-group">
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Email"
-                        required
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-                  <div className="w-full md:w-1/2 px-2 mb-4">
-                    <div className="form-group">
-                      <input
-                        type="tel"
-                        id="phone"
-                        name="Mobile Number"
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Phone Number"
-                        required
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="mb-4">
-                  <textarea
-                    name="message"
-                    id="message"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    rows="4"
-                    placeholder="Message"
-                    required
-                    onChange={handleChange}
-                  ></textarea>
-                </div>
-                <div className="text-center">
-                  <button
-                    type="submit"
-                    className="bg-[#872341] text-white px-6 py-3 rounded-lg hover:bg-[#BE3144] transition-colors duration-300"
-                  >
-                    Send Message
-                  </button>
-                </div>
-              </form>
+          <div className="grid gap-8 md:grid-cols-4">
+            <div>
+              <h4 className="mb-4 text-lg font-semibold">
+                Government Services Portal
+              </h4>
+              <p className="text-gray-300">
+                Making government services accessible to everyone.
+              </p>
             </div>
-            <div className="w-full lg:w-4/12 mt-12 lg:mt-0 lg:pl-8">
-              <div className="contact-info">
-                <h3 className="text-xl font-bold text-gray-800 mb-4">
-                  Contact Info
-                </h3>
-                <div className="contact-item mb-4">
-                  <p className="text-gray-600">
-                    <span className="flex items-center">
-                      <i className="fas fa-map-marker-alt text-blue-500 "></i>
-                      Address
-                    </span>
-                    Egypt, Suez
-                  </p>
-                </div>
-                <div className="contact-item mb-4">
-                  <p className="text-gray-600">
-                    <span className="flex items-center">
-                      <i className="fas fa-phone text-blue-500 "></i>
-                      Phone
-                    </span>
-                    +201002020455
-                  </p>
-                </div>
-                <div className="contact-item mb-4">
-                  <p className="text-gray-600">
-                    <span className="flex items-center">
-                      <i className="fas fa-envelope text-blue-500 "></i>
-                      Email
-                    </span>
-                    omarkhaled202080@gmail.com
-                  </p>
-                </div>
+            <div>
+              <h4 className="mb-4 text-lg font-semibold">Quick Links</h4>
+              <ul className="space-y-2 text-gray-300">
+                <li>
+                  <Link href="/" className="hover:text-white">
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/services" className="hover:text-white">
+                    All Services
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/departments" className="hover:text-white">
+                    Departments
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/locations" className="hover:text-white">
+                    Locations
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/faq" className="hover:text-white">
+                    FAQ
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="mb-4 text-lg font-semibold">Contact</h4>
+              <ul className="space-y-2 text-gray-300">
+                <li>Email: support@govservices.gov</li>
+                <li>Phone: 19990</li>
+                <li>Hours: Sun-Fri, 7am-5pm</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="mb-4 text-lg font-semibold">Subscribe</h4>
+              <p className="mb-2 text-gray-300">
+                Get updates on new services and features
+              </p>
+              <div className="flex">
+                <input
+                  type="email"
+                  placeholder="Your email"
+                  className="rounded-r-none bg-gray-700 text-white"
+                />
+                <button className="rounded-l-none">Subscribe</button>
               </div>
             </div>
           </div>
+          <div className="mt-8 border-t border-gray-700 pt-8 text-center text-gray-300">
+            <p>
+              © {new Date().getFullYear()} Government Services Portal. All
+              rights reserved.
+            </p>
+          </div>
         </div>
-      </div>
-      <div className="bg-gray-800 py-6">
-        <div className="container mx-auto text-center">
-          <p className="text-white">
-            &copy; 2025 E-government Documentation System Developed by{" "}
-            <span className="text-[#E17564]">Computer science students</span>
-          </p>
-        </div>
-      </div>
+      </footer>
     </header>
   );
 };

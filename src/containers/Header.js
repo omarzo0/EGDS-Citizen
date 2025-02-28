@@ -144,18 +144,21 @@ function Header() {
                 </a>
               </li>
               <li>
-                <a href="#about" className="block py-2 hover:text-[#BE3144]">
+                <a
+                  href="/app/documents"
+                  className="block py-2 hover:text-[#BE3144]"
+                >
                   {t("documents")}
                 </a>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   to="/app/settings-profile"
                   className="block py-2 hover:text-[#BE3144]"
                 >
                   {t("settings")}
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link to="/login" className="block py-2 hover:text-[#BE3144]">
                   {t("login")}

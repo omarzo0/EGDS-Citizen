@@ -48,8 +48,6 @@ export function Wallet() {
         <div className="flex justify-between items-center mb-6">
           <TabsList>
             <TabsTrigger value="all">All Documents</TabsTrigger>
-            <TabsTrigger value="ids">IDs</TabsTrigger>
-            <TabsTrigger value="licenses">Licenses</TabsTrigger>
           </TabsList>
           <Button
             onClick={() => {
@@ -70,28 +68,14 @@ export function Wallet() {
             selectedId={selectedDocument?.id}
           />
         </TabsContent>
-
-        <TabsContent value="ids" className="mt-0">
-          <DocumentGrid
-            documents={documents.filter((doc) => doc.type === "National ID")}
-            onSelect={handleSelectDocument}
-            selectedId={selectedDocument?.id}
-          />
-        </TabsContent>
-
-        <TabsContent value="licenses" className="mt-0">
-          <DocumentGrid
-            documents={documents.filter((doc) => doc.type === "Driver License")}
-            onSelect={handleSelectDocument}
-            selectedId={selectedDocument?.id}
-          />
-        </TabsContent>
       </Tabs>
 
       {isUploadOpen && (
         <UploadDocument
           onUpload={addDocument}
           onCancel={() => setIsUploadOpen(false)}
+          isOpen={isUploadOpen}
+          onClose={() => setIsUploadOpen(false)}
         />
       )}
 

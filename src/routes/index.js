@@ -14,6 +14,9 @@ const Profile = lazy(() => import("../pages/protected/profile"));
 const Home = lazy(() => import("../pages/protected/home"));
 const Providers = lazy(() => import("../pages/protected/providers"));
 const Digitalwallet = lazy(() => import("../pages/protected/digitalwallet"));
+const Documents = lazy(() => import("../pages/protected/documents"));
+const Departments = lazy(() => import("../pages/protected/departments"));
+const Esign = lazy(() => import("../pages/protected/esign"));
 
 const routes = [
   {
@@ -56,6 +59,18 @@ const routes = [
   {
     path: "/digitalwallet",
     component: Digitalwallet,
+  },
+  {
+    path: "/documents",
+    component: Documents,
+  },
+  {
+    path: "/departments",
+    component: Departments,
+  },
+  {
+    path: "/esign",
+    component: Esign,
   },
 ];
 
