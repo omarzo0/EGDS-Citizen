@@ -319,23 +319,6 @@ const Home = (props) => {
     FaMosque,
     FaBookReader,
   ];
-  const initialState = {
-    name: "",
-    email: "",
-    message: "",
-  };
-  const [{ name, email, message }, setState] = useState(initialState);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setState((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(name, email, message);
-  };
-
   return (
     <header>
       <div className="relative py-20">
@@ -350,7 +333,7 @@ const Home = (props) => {
                 {t("header.description")}
               </p>
               <Link
-                to="/app/profile"
+                to="/app/documents"
                 className="px-8 py-3 bg-[#872341] text-white text-lg rounded-2xl shadow-lg hover:bg-[#BE3144] transition duration-300"
               >
                 {t("header.applyBtn")}

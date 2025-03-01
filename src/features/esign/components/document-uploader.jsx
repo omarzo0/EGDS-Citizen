@@ -10,6 +10,7 @@ import {
   Alert,
   Box,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export function DocumentUploader() {
   const [file, setFile] = useState(null);
@@ -18,6 +19,7 @@ export function DocumentUploader() {
   const [department, setDepartment] = useState("");
   const [documentType, setDocumentType] = useState("");
   const [description, setDescription] = useState("");
+  const navigate = useNavigate();
 
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -168,7 +170,13 @@ export function DocumentUploader() {
           <Button
             type="submit"
             variant="contained"
-            color="primary"
+            sx={{
+              backgroundColor: "black",
+              color: "white",
+              "&:hover": {
+                backgroundColor: "black", // Keeps the color on hover
+              },
+            }}
             fullWidth
             disabled={!file || !department || !documentType || uploading}
           >

@@ -443,7 +443,7 @@ const Home = (props) => {
                 evaluate information and entities providing services.
               </p>
               <Link
-                to="/app/profile"
+                to="/app/documents"
                 className="px-8 py-3 bg-[#872341] text-white text-lg rounded-2xl shadow-lg hover:bg-[#BE3144] transition duration-300"
               >
                 Apply for Document

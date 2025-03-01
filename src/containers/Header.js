@@ -82,10 +82,7 @@ function Header() {
       <nav className="bg-white fixed w-full shadow-md z-50 mt-1">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           {/* Brand Logo */}
-          <Link
-            className="text-xl font-bold text-[#872341] ml-10"
-            to="/app/Home"
-          >
+          <Link className="text-xl font-bold text-black ml-10" to="/app/Home">
             EGR System
           </Link>
 
@@ -96,9 +93,9 @@ function Header() {
               className="block lg:hidden text-[#872341] focus:outline-none"
             >
               <div className="space-y-1">
-                <span className="block w-6 h-0.5 bg-[#872341]"></span>
-                <span className="block w-6 h-0.5 bg-[#872341]"></span>
-                <span className="block w-6 h-0.5 bg-[#872341]"></span>
+                <span className="block w-6 h-0.5 bg-black"></span>
+                <span className="block w-6 h-0.5 bg-black"></span>
+                <span className="block w-6 h-0.5 bg-black"></span>
               </div>
             </button>
           )}
@@ -110,7 +107,7 @@ function Header() {
               isMobileMenuOpen ? "block mt-60 flex justify-center" : "hidden"
             }`}
           >
-            <ul className="flex flex-col lg:flex-row lg:space-x-6 text-[#872341] mt-4 lg:mt-0">
+            <ul className="flex flex-col lg:flex-row lg:space-x-6 text-black mt-4 lg:mt-0">
               <li>
                 <Link
                   to="/app/Home"
@@ -185,7 +182,7 @@ function Header() {
         </div>
 
         {/* Language Switch Button */}
-        <button onClick={toggleLanguage} className="text-[#872341] mr-6">
+        <button onClick={toggleLanguage} className="text-black mr-6">
           {i18n.language === "en" ? "العربية" : "English"}
         </button>
       </nav>

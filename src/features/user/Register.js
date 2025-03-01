@@ -40,87 +40,79 @@ function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-base-200 flex items-center">
-      <div className="card mx-auto w-full max-w-5xl  shadow-xl">
-        <div className="grid  md:grid-cols-2 grid-cols-1  bg-base-100 rounded-xl">
-          <div className="">
-            <LandingIntro />
-          </div>
-          <div className="py-24 px-10">
-            <h2 className="text-2xl font-semibold mb-2 text-center">
+    <div className="min-h-screen bg-base-200 flex items-center justify-center">
+      <div className="card w-full max-w-lg shadow-xl">
+        <div className="bg-base-100 rounded-xl p-8">
+          <h2 className="text-2xl font-semibold mb-4 text-center">Register</h2>
+          <form onSubmit={(e) => submitForm(e)}>
+            <div className="mb-4">
+              <InputText
+                defaultValue={registerObj.name}
+                updateType="name"
+                containerStyle="mt-4"
+                labelTitle="First Name"
+                updateFormValue={updateFormValue}
+              />
+              <InputText
+                defaultValue={registerObj.name}
+                updateType="name"
+                containerStyle="mt-4"
+                labelTitle="Second Name"
+                updateFormValue={updateFormValue}
+              />
+              <InputText
+                defaultValue={registerObj.emailId}
+                updateType="emailId"
+                containerStyle="mt-4"
+                labelTitle="National Id"
+                updateFormValue={updateFormValue}
+              />
+              <InputText
+                defaultValue={registerObj.emailId}
+                type="tel"
+                updateType="emailId"
+                containerStyle="mt-4"
+                labelTitle="Phone Number"
+                updateFormValue={updateFormValue}
+              />
+              <InputText
+                defaultValue={registerObj.password}
+                type="password"
+                updateType="password"
+                containerStyle="mt-4"
+                labelTitle="Password"
+                updateFormValue={updateFormValue}
+              />
+              <InputText
+                defaultValue={registerObj.password}
+                type="password"
+                updateType="password"
+                containerStyle="mt-4"
+                labelTitle="Confirm Password"
+                updateFormValue={updateFormValue}
+              />
+            </div>
+
+            <ErrorText styleClass="mt-8">{errorMessage}</ErrorText>
+            <button
+              type="submit"
+              className={
+                "btn mt-2 w-full bg-black text-white" +
+                (loading ? " loading" : "")
+              }
+            >
               Register
-            </h2>
-            <form onSubmit={(e) => submitForm(e)}>
-              <div className="mb-4">
-                <InputText
-                  defaultValue={registerObj.name}
-                  updateType="name"
-                  containerStyle="mt-4"
-                  labelTitle="First Name"
-                  updateFormValue={updateFormValue}
-                />
-                <InputText
-                  defaultValue={registerObj.name}
-                  updateType="name"
-                  containerStyle="mt-4"
-                  labelTitle="Second Name"
-                  updateFormValue={updateFormValue}
-                />
+            </button>
 
-                <InputText
-                  defaultValue={registerObj.emailId}
-                  updateType="emailId"
-                  containerStyle="mt-4"
-                  labelTitle="National Id"
-                  updateFormValue={updateFormValue}
-                />
-                <InputText
-                  defaultValue={registerObj.emailId}
-                  type="tel"
-                  updateType="emailId"
-                  containerStyle="mt-4"
-                  labelTitle="Phone Number "
-                  updateFormValue={updateFormValue}
-                />
-
-                <InputText
-                  defaultValue={registerObj.password}
-                  type="password"
-                  updateType="password"
-                  containerStyle="mt-4"
-                  labelTitle="Password"
-                  updateFormValue={updateFormValue}
-                />
-                <InputText
-                  defaultValue={registerObj.password}
-                  type="password"
-                  updateType="password"
-                  containerStyle="mt-4"
-                  labelTitle="Confirm Password"
-                  updateFormValue={updateFormValue}
-                />
-              </div>
-
-              <ErrorText styleClass="mt-8">{errorMessage}</ErrorText>
-              <button
-                type="submit"
-                className={
-                  "btn mt-2 w-full btn-primary" + (loading ? " loading" : "")
-                }
-              >
-                Register
-              </button>
-
-              <div className="text-center mt-4">
-                Already have an account?{" "}
-                <Link to="/login">
-                  <span className="  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200">
-                    Login
-                  </span>
-                </Link>
-              </div>
-            </form>
-          </div>
+            <div className="text-center mt-4">
+              Already have an account?{" "}
+              <Link to="/login">
+                <span className="inline-block text-black hover:text-primary hover:underline hover:cursor-pointer transition duration-200">
+                  Login
+                </span>
+              </Link>
+            </div>
+          </form>
         </div>
       </div>
     </div>

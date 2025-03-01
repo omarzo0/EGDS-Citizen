@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { CalendarIcon, Clock } from "lucide-react";
 import { format, isBefore, addMonths, parseISO } from "date-fns";
-import { Card, CardContent, CardHeader } from "../components/ui/card";
+import { Card, CardContent, CardHeader } from "../../../lib/ui/card";
 
 import { Badge } from "@mui/material";
 
@@ -102,7 +102,7 @@ export function Reminders() {
         return (
           <Badge
             variant="warning"
-            className="bg-yellow-500 hover:bg-yellow-600"
+            className="bg-yellow-500  rounded-full px-2 py-1"
           >
             Expiring Soon
           </Badge>

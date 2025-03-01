@@ -1,24 +1,20 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-
-// MUI Imports
 import {
   Button,
   Card,
   CardContent,
   CardHeader,
-  CardActions,
   Typography,
   Tabs,
   Tab,
   Badge,
 } from "@mui/material";
+
 import { DocumentUploader } from "./components/document-uploader";
 
 function Sign() {
   const [activeTab, setActiveTab] = useState(0);
 
-  // Mock data for documents
   const documents = [
     {
       id: "doc-1",
@@ -65,7 +61,10 @@ function Sign() {
           </Typography>
           <Button
             variant="contained"
-            color="primary"
+            sx={{
+              backgroundColor: "black",
+              "&:hover": { backgroundColor: "#333" },
+            }}
             onClick={() => setActiveTab(1)}
           >
             Upload New Document
@@ -76,7 +75,11 @@ function Sign() {
           value={activeTab}
           onChange={(event, newValue) => setActiveTab(newValue)}
           className="w-full"
-          indicatorColor="primary"
+          sx={{
+            "& .MuiTabs-indicator": { backgroundColor: "black" }, // Indicator color
+            "& .MuiTab-root": { color: "black" }, // Default text color
+            "& .Mui-selected": { color: "black", fontWeight: "bold" }, // Selected tab color
+          }}
         >
           <Tab label="My Documents" />
           <Tab label="Upload Document" />
@@ -97,15 +100,32 @@ function Sign() {
                         <Typography variant="body2" color="textSecondary">
                           Department: {doc.department}
                         </Typography>
-                        {getStatusBadge(doc.status)}
+                        <div className="ml-7">{getStatusBadge(doc.status)}</div>
                       </div>
                     </div>
+
                     <div className="flex gap-2">
-                      <Button variant="outlined" size="small">
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        sx={{
+                          color: "black",
+                          borderColor: "black",
+                          "&:hover": { borderColor: "black" },
+                        }}
+                      >
                         View
                       </Button>
+
                       {doc.status === "signed" && (
-                        <Button variant="contained" size="small">
+                        <Button
+                          variant="contained"
+                          size="small"
+                          sx={{
+                            backgroundColor: "black",
+                            "&:hover": { backgroundColor: "#333" },
+                          }}
+                        >
                           Download
                         </Button>
                       )}

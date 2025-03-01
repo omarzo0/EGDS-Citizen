@@ -20,15 +20,11 @@ const Providers = lazy(() => import("./pages/protected/providers"));
 const Digitalwallet = lazy(() => import("./pages/protected/digitalwallet"));
 const Departments = lazy(() => import("./pages/protected/departments"));
 
-// Initializing different libraries
 initializeApp();
 
-// Check for login and initialize axios
 const token = checkAuth();
-
 function App() {
   useEffect(() => {
-    // 👆 daisy UI themes initialization
     themeChange(false);
   }, []);
 
@@ -39,7 +35,8 @@ function App() {
           fallback={
             <div className="w-full h-screen flex justify-center items-center">
               <Spinner
-                color="#4b108d"
+                color="primary"
+                size="xl" // Adjust size to make sure it's visible
                 style={{ width: "180px", height: "180px" }}
               />
             </div>
