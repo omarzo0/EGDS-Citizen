@@ -19,6 +19,7 @@ const Departments = lazy(() => import("../pages/protected/departments"));
 const Esign = lazy(() => import("../pages/protected/esign"));
 const Book = lazy(() => import("../pages/protected/book"));
 const Confirmation = lazy(() => import("../pages/protected/confirmation"));
+const Application = lazy(() => import("../pages/protected/application"));
 
 const routes = [
   {
@@ -82,6 +83,10 @@ const routes = [
   {
     path: "/confirmation",
     component: Confirmation,
+  },
+  {
+    path: "/application",
+    component: Application,
   },
 ];
 

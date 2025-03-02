@@ -254,13 +254,23 @@ export default function ServicePage({ params }) {
                 </div>
               </TabsContent>
             </Tabs>
+          </div>
+
+          <div>
             <Card>
               <CardHeader>
                 <CardTitle>Book The application</CardTitle>
+                <CardDescription></CardDescription>
               </CardHeader>
               <CardContent>
-                <Link to={`/app/confirmation`} className="w-full">
-                  <Button className="w-full">Confirm Appointment</Button>
+                <div className="mb-4 flex items-center">
+                  <Calendar className="mr-2 h-5 w-5 text-gray-500" />
+                  <span>
+                    We will send your notify you when the document finished
+                  </span>
+                </div>
+                <Link to={`/app/application`} className="w-full">
+                  <Button className="w-full">Fill the form</Button>
                 </Link>
               </CardContent>
             </Card>
