@@ -17,6 +17,8 @@ const Digitalwallet = lazy(() => import("../pages/protected/digitalwallet"));
 const Documents = lazy(() => import("../pages/protected/documents"));
 const Departments = lazy(() => import("../pages/protected/departments"));
 const Esign = lazy(() => import("../pages/protected/esign"));
+const Book = lazy(() => import("../pages/protected/book"));
+const Confirmation = lazy(() => import("../pages/protected/confirmation"));
 
 const routes = [
   {
@@ -68,9 +70,18 @@ const routes = [
     path: "/departments",
     component: Departments,
   },
+
   {
     path: "/esign",
     component: Esign,
+  },
+  {
+    path: "/book",
+    component: Book,
+  },
+  {
+    path: "/confirmation",
+    component: Confirmation,
   },
 ];
 

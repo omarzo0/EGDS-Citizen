@@ -1,7 +1,8 @@
+import { useState } from "react";
 import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { Button } from "../../../lib/ui/button";
-import ServiceCard from "../components/service-card";
+import ServiceCard from "./service-card";
 
 const departmentData = {
   "civil-registry": {
@@ -108,42 +109,52 @@ const departmentData = {
   },
 };
 
-export default function DepartmentPage({ params }) {
-  const { departmentId } = params;
-  const department = departmentData[departmentId] || {
-    title: "Department Not Found",
-    services: [],
-  };
+export default function DepartmentPage() {
+  const allServices = Object.values(departmentData).flatMap((department) =>
+    department.services.map((service) => ({
+      ...service,
+      department: department.title,
+    }))
+  );
+
+  const [showAll, setShowAll] = useState(false);
+  const visibleServices = showAll ? allServices : allServices.slice(0, 3);
 
   return (
     <div className="container mx-auto px-4 py-12">
       <Link
-        href="/"
+        to="/app/documents"
         className="mb-6 flex items-center text-sm font-medium text-gray-600 hover:text-primary"
       >
         <ArrowLeft className="mr-2 h-4 w-4" />
-        Back to home
+        Back to Documents
       </Link>
 
-      <h1 className="mb-8 text-3xl font-bold">{department.title} Services</h1>
+      <h1 className="mb-8 text-3xl font-bold">All Services</h1>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {department.services.map((service) => (
+        {visibleServices.map((service) => (
           <ServiceCard
             key={service.id}
             title={service.title}
             description={service.description}
             icon={service.icon}
             href={`/services/${service.id}`}
-            department={department.title}
+            department={service.department}
           />
         ))}
       </div>
 
       <div className="mt-8">
-        <Link href="/services">
-          <Button variant="outline">View All Services</Button>
-        </Link>
+        {!showAll ? (
+          <Button variant="outline" onClick={() => setShowAll(true)}>
+            View All Services
+          </Button>
+        ) : (
+          <Button variant="outline" onClick={() => setShowAll(false)}>
+            Show Less
+          </Button>
+        )}
       </div>
     </div>
   );

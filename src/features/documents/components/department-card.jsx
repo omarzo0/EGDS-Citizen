@@ -41,7 +41,7 @@ export default function DepartmentCard({
         </CardDescription>
       </CardHeader>
       <CardFooter className="pt-6">
-        <Link to={`/app/departments`} className="w-full">
+        <Link to="/app/departments" className="w-full">
           <Button variant="outline" className="w-full">
             View Services
           </Button>

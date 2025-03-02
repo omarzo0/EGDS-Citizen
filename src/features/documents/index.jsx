@@ -36,6 +36,7 @@ export default function HomePage() {
           </h3>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             <DepartmentCard
+              departmentId="civil-registry"
               title="Civil Registry"
               description="Birth, marriage, and death certificates"
               icon="FileText"
@@ -217,8 +218,8 @@ export default function HomePage() {
               <h4 className="mb-4 text-lg font-semibold">Contact</h4>
               <ul className="space-y-2 text-gray-300">
                 <li>Email: support@govservices.gov</li>
-                <li>Phone: 1-800-GOV-HELP</li>
-                <li>Hours: Mon-Fri, 8am-5pm</li>
+                <li>Phone: 19990</li>
+                <li>Hours: Sun-Fri, 7am-5pm</li>
               </ul>
             </div>
             <div>
@@ -227,12 +228,12 @@ export default function HomePage() {
                 Get updates on new services and features
               </p>
               <div className="flex">
-                <Input
+                <input
                   type="email"
                   placeholder="Your email"
                   className="rounded-r-none bg-gray-700 text-white"
                 />
-                <Button className="rounded-l-none">Subscribe</Button>
+                <button className="rounded-l-none">Subscribe</button>
               </div>
             </div>
           </div>

@@ -87,7 +87,7 @@ function ProfilePage({ document, onClick, isSelected }) {
                     backgroundColor: "black",
                   }}
                 >
-                  View Docs & e-signature Progress
+                  View e-sign Progress
                 </Button>
               </Link>
             </Box>

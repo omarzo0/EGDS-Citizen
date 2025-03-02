@@ -124,14 +124,14 @@ function Header() {
                   {t("profile")}
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   to="/app/provider"
                   className="block py-2 hover:text-[#BE3144]"
                 >
                   {t("providers2")}
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <a
                   href="/app/digitalwallet"

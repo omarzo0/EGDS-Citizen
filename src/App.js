@@ -49,10 +49,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/providers" element={<Providers />} />
             <Route path="/digitalwallet" element={<Digitalwallet />} />
-            <Route
-              path="/departments/:departmentId"
-              element={<Departments />}
-            />
+            <Route path="/departments" element={<Departments />} />
 
             {/* Place new routes over this */}
             <Route path="/app/*" element={<Layout />} />

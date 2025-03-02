@@ -67,7 +67,7 @@ export default function ServiceCard({
         </Badge>
       </CardContent>
       <CardFooter>
-        <Link href={href} className="w-full">
+        <Link to="/app/book" className="w-full">
           <Button variant="outline" className="w-full">
             Book Appointment
           </Button>

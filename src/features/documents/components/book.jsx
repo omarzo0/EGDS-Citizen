@@ -1,20 +1,18 @@
 import { ArrowLeft, Calendar, Clock, MapPin } from "lucide-react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import { Button } from "../../../lib/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
+} from "../../../lib/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../lib/ui/tabs";
+import { Badge } from "../../../lib/ui/badge";
+import { useState } from "react";
 
 export default function ServicePage({ params }) {
-  const serviceId = params.serviceId;
-
-  // This would come from a database in a real application
   const serviceMap = {
     passport: {
       title: "Passport Application",
@@ -109,8 +107,15 @@ export default function ServicePage({ params }) {
       eligibility: "Property owners or their authorized representatives.",
     },
   };
-
-  const serviceInfo = serviceMap[serviceId] || {
+  const [activeTab, setActiveTab] = useState("requirements");
+  const handleTabChange = (value) => {
+    if (value === "requirements" || value === "locations") {
+      setActiveTab("info"); // Show "Information" tab when clicking "Requirements" or "Locations"
+    } else {
+      setActiveTab(value);
+    }
+  };
+  const serviceInfo = {
     title: "Service Information",
     description: "Details about this service.",
     department: "Government Department",
@@ -122,21 +127,9 @@ export default function ServicePage({ params }) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <div className="h-8 w-8 rounded-full bg-primary"></div>
-              <h1 className="text-xl font-bold">Government Services Portal</h1>
-            </div>
-            <Button variant="outline">Sign In</Button>
-          </div>
-        </div>
-      </header>
-
       <main className="container mx-auto px-4 py-12">
         <Link
-          href="/services"
+          to="/app/departments"
           className="mb-6 flex items-center text-sm font-medium text-gray-600 hover:text-primary"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
@@ -153,7 +146,7 @@ export default function ServicePage({ params }) {
 
         <div className="grid gap-8 lg:grid-cols-3">
           <div className="lg:col-span-2">
-            <Tabs defaultValue="info">
+            <Tabs value={activeTab} onValueChange={setActiveTab}>
               <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="info">Information</TabsTrigger>
                 <TabsTrigger value="requirements">Requirements</TabsTrigger>
@@ -261,23 +254,13 @@ export default function ServicePage({ params }) {
                 </div>
               </TabsContent>
             </Tabs>
-          </div>
-
-          <div>
             <Card>
               <CardHeader>
-                <CardTitle>Book an Appointment</CardTitle>
-                <CardDescription>
-                  Select a date and time that works for you
-                </CardDescription>
+                <CardTitle>Book The application</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="mb-4 flex items-center">
-                  <Calendar className="mr-2 h-5 w-5 text-gray-500" />
-                  <span>Available dates shown in calendar</span>
-                </div>
-                <Link href={`/services/${serviceId}/book`}>
-                  <Button className="w-full">Schedule Appointment</Button>
+                <Link to={`/app/confirmation`} className="w-full">
+                  <Button className="w-full">Confirm Appointment</Button>
                 </Link>
               </CardContent>
             </Card>
@@ -285,12 +268,76 @@ export default function ServicePage({ params }) {
         </div>
       </main>
 
-      <footer className="mt-12 bg-gray-800 py-8 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <p>
-            © {new Date().getFullYear()} Government Services Portal. All rights
-            reserved.
-          </p>
+      <footer className="bg-gray-800 py-12 text-white">
+        <div className="container mx-auto px-4">
+          <div className="grid gap-8 md:grid-cols-4">
+            <div>
+              <h4 className="mb-4 text-lg font-semibold">
+                Government Services Portal
+              </h4>
+              <p className="text-gray-300">
+                Making government services accessible to everyone.
+              </p>
+            </div>
+            <div>
+              <h4 className="mb-4 text-lg font-semibold">Quick Links</h4>
+              <ul className="space-y-2 text-gray-300">
+                <li>
+                  <Link href="/" className="hover:text-white">
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/services" className="hover:text-white">
+                    All Services
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/departments" className="hover:text-white">
+                    Departments
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/locations" className="hover:text-white">
+                    Locations
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/faq" className="hover:text-white">
+                    FAQ
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="mb-4 text-lg font-semibold">Contact</h4>
+              <ul className="space-y-2 text-gray-300">
+                <li>Email: support@govservices.gov</li>
+                <li>Phone: 19990</li>
+                <li>Hours: Sun-Fri, 7am-5pm</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="mb-4 text-lg font-semibold">Subscribe</h4>
+              <p className="mb-2 text-gray-300">
+                Get updates on new services and features
+              </p>
+              <div className="flex">
+                <input
+                  type="email"
+                  placeholder="Your email"
+                  className="rounded-r-none bg-gray-700 text-white"
+                />
+                <button className="rounded-l-none">Subscribe</button>
+              </div>
+            </div>
+          </div>
+          <div className="mt-8 border-t border-gray-700 pt-8 text-center text-gray-300">
+            <p>
+              © {new Date().getFullYear()} Government Services Portal. All
+              rights reserved.
+            </p>
+          </div>
         </div>
       </footer>
     </div>
