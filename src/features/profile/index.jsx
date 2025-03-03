@@ -16,6 +16,7 @@ import { Reminders } from "./components/reminders";
 import Digitalwallet from "./components/digital-wallet";
 import Bills from "./components/bills";
 import AccountSettings from "./components/AccountSettings";
+import Feedback from "./components/feedback";
 import { Link } from "react-router-dom";
 function ProfilePage({ document, onClick, isSelected }) {
   const [tabValue, setTabValue] = useState(0);
@@ -114,6 +115,7 @@ function ProfilePage({ document, onClick, isSelected }) {
               <Tab label="Digital Wallet" />
               <Tab label="Reminders" />
               <Tab label="Bills" />
+              <Tab label="Feedback" />
             </CustomTabs>
             {/* Account Settings Tab */}
 
@@ -133,6 +135,9 @@ function ProfilePage({ document, onClick, isSelected }) {
             )}
             {/* Bills Tab */}
             {tabValue === 3 && <Bills />}
+
+            {/* Feedback Tab */}
+            {tabValue === 4 && <Feedback />}
           </Card>
         </Grid>
       </Grid>
