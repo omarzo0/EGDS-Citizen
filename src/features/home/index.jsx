@@ -473,7 +473,7 @@ const Home = (props) => {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/faq" className="hover:text-white">
+                  <Link to="/app/faq" className="hover:text-white">
                     FAQ
                   </Link>
                 </li>

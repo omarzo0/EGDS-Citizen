@@ -189,7 +189,7 @@ export default function BookingPage({ params }) {
                       We will send your notify you when the document finished
                     </span>
                   </div>
-                  <Link to={`/app/confirmation`} className="w-full">
+                  <Link to={`/app/payment`} className="w-full">
                     <Button className="w-full">Book the document</Button>
                   </Link>
                 </CardContent>

@@ -75,6 +75,7 @@ function ProfilePage({ document, onClick, isSelected }) {
                 <Typography>Documents applied: 32</Typography>
                 <Typography>Digital wallet Documents: 26</Typography>
                 <Typography>E-signature Documents: 6</Typography>
+                <Typography>Points: 6</Typography>
               </Box>
 
               <Link to="/app/esign" style={{ textDecoration: "none" }}>
