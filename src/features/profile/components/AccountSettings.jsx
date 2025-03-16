@@ -61,6 +61,12 @@ function AccountSettings() {
             }}
           />
         </Grid>
+        <Grid item xs={12} md={6}>
+          <TextField label="Current Password" fullWidth defaultValue="121223" />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <TextField label="New Password" fullWidth defaultValue="121223" />
+        </Grid>
       </Grid>
       <Button
         variant="contained"
