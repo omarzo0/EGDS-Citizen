@@ -14,8 +14,10 @@ export function DocumentCard({ document, onClick, isSelected }) {
       <div className="relative h-40 bg-gray-100">
         {document.file ? (
           <img
-            src={URL.createObjectURL(document.file) || "/placeholder.svg"}
-            alt={document.name}
+            src={
+              URL.createObjectURL(document.document_image) || "/placeholder.svg"
+            }
+            alt={document.document_name}
             fill
             className="w-full h-full object-cover"
           />
@@ -25,18 +27,27 @@ export function DocumentCard({ document, onClick, isSelected }) {
           </div>
         )}
         <div className="absolute top-2 right-2 bg-primary text-white text-xs px-2 py-1 rounded-full">
-          {document.type}
+          {document.document_type}
         </div>
       </div>
       <CardContent className="p-4">
-        <h3 className="font-medium truncate">{document.name}</h3>
+        <h3 className="font-medium truncate">{document.document_name}</h3>
         <div className="flex items-center text-sm text-gray-500 mt-2">
           <CreditCard className="h-3.5 w-3.5 mr-1" />
-          <span className="truncate">{document.documentNumber}</span>
+          <span className="truncate">{document.document_number}</span>
         </div>
         <div className="flex items-center text-sm text-gray-500 mt-1">
           <Calendar className="h-3.5 w-3.5 mr-1" />
-          <span>Expires: {document.expiryDate}</span>
+          <span>
+            Expires:{" "}
+            {document?.expiry_date
+              ? new Date(document.expiry_date).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })
+              : "N/A"}
+          </span>
         </div>
       </CardContent>
     </Card>

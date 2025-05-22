@@ -27,7 +27,7 @@ const DigitalWalletApp = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/citizen/digital-document-list/${citizenId}`,
+        `http://localhost:5000/api/citizen/documents-get/${citizenId}`,
         {
           method: "GET",
           headers: {
@@ -65,19 +65,14 @@ const DigitalWalletApp = () => {
       >
         <CardContent className="h-full flex flex-col">
           <div className="relative h-40 bg-gray-100 flex justify-center items-center">
-            <img
-              src={document?.document_image || "/placeholder.svg"}
-              alt={document?.name || "Document"}
-              className="w-[200px] h-auto object-contain"
-            />
             <div className="absolute top-2 right-2 bg-primary text-white text-xs px-2 py-1 rounded-full">
-              {document?.document_type || "Document"}
+              {document?.status || "Document"}
             </div>
           </div>
 
           <div className="mt-2 flex-grow">
             <Typography variant="h6" className="font-medium truncate">
-              {document?.document_name || "Document"}
+              {document?.service.name || "Document"}
             </Typography>
             <div className="flex items-center text-sm text-gray-500 mt-2">
               <CreditCard className="h-3.5 w-3.5 mr-1" />
@@ -89,8 +84,8 @@ const DigitalWalletApp = () => {
               <Calendar className="h-3.5 w-3.5 mr-1" />
               <span>
                 Expires:{" "}
-                {document?.expiry_date
-                  ? new Date(document.expiry_date).toLocaleDateString("en-US", {
+                {document?.last_update
+                  ? new Date(document.last_update).toLocaleDateString("en-US", {
                       year: "numeric",
                       month: "short",
                       day: "numeric",

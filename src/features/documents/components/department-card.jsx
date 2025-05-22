@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { FileText, Plane, CreditCard, Car, Receipt, Home } from "lucide-react";
 import {
   Card,
@@ -8,12 +7,12 @@ import {
   CardTitle,
 } from "../../../lib/ui/card";
 import { Button } from "../../../lib/ui/button";
+import { Link } from "react-router-dom";
 
 export default function DepartmentCard({
   title,
   description,
   icon,
-  href,
   color,
   iconColor,
   departmentId,
@@ -41,7 +40,7 @@ export default function DepartmentCard({
         </CardDescription>
       </CardHeader>
       <CardFooter className="pt-6">
-        <Link to="/app/departments" className="w-full">
+        <Link to={`/app/departments/${departmentId}`} className="w-full">
           <Button variant="outline" className="w-full">
             View Services
           </Button>

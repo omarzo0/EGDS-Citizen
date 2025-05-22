@@ -1,36 +1,81 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import LandingIntro from "./LandingIntro";
 import ErrorText from "../../components/Typography/ErrorText";
 import InputText from "../../components/Input/InputText";
 
 function Register() {
   const INITIAL_REGISTER_OBJ = {
-    name: "",
+    first_name: "",
+    middle_name: "",
+    last_name: "",
+    national_id: "",
+    phone_number: "",
+    email: "",
     password: "",
-    emailId: "",
+    confirmPassword: "",
   };
 
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [registerObj, setRegisterObj] = useState(INITIAL_REGISTER_OBJ);
 
-  const submitForm = (e) => {
+  const submitForm = async (e) => {
     e.preventDefault();
     setErrorMessage("");
 
-    if (registerObj.name.trim() === "")
-      return setErrorMessage("Name is required! (use any value)");
-    if (registerObj.emailId.trim() === "")
-      return setErrorMessage("Email Id is required! (use any value)");
+    // Basic validation
+    if (registerObj.first_name.trim() === "")
+      return setErrorMessage("First name is required!");
+    if (registerObj.middle_name.trim() === "")
+      return setErrorMessage("Middle name is required!");
+    if (registerObj.last_name.trim() === "")
+      return setErrorMessage("Last name is required!");
+    if (registerObj.national_id.trim() === "")
+      return setErrorMessage("National ID is required!");
+    if (registerObj.phone_number.trim() === "")
+      return setErrorMessage("Phone number is required!");
+    if (registerObj.email.trim() === "")
+      return setErrorMessage("Email is required!");
     if (registerObj.password.trim() === "")
-      return setErrorMessage("Password is required! (use any value)");
-    else {
+      return setErrorMessage("Password is required!");
+    if (registerObj.password !== registerObj.confirmPassword)
+      return setErrorMessage("Passwords don't match!");
+
+    try {
       setLoading(true);
-      // Call API to check user credentials and save token in localstorage
-      localStorage.setItem("token", "DumyTokenHere");
+      const response = await fetch(
+        "http://localhost:5000/api/citizen/register",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            first_name: registerObj.first_name,
+            middle_name: registerObj.middle_name,
+            last_name: registerObj.last_name,
+            national_id: registerObj.national_id,
+            phone_number: registerObj.phone_number,
+            email: registerObj.email,
+            password: registerObj.password,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Registration failed");
+      }
+
+      // Redirect to profile completion if needed, or to dashboard
+      if (data.data.profileComplete) {
+        window.location.href = "/dashboard";
+      } else {
+        window.location.href = "/complete-profile";
+      }
+    } catch (error) {
+      setErrorMessage(error.message || "An error occurred during registration");
+    } finally {
       setLoading(false);
-      window.location.href = "/app//app/settings-profile";
     }
   };
 
@@ -47,32 +92,52 @@ function Register() {
           <form onSubmit={(e) => submitForm(e)}>
             <div className="mb-4">
               <InputText
-                defaultValue={registerObj.name}
-                updateType="name"
+                defaultValue={registerObj.first_name}
+                updateType="first_name"
                 containerStyle="mt-4"
                 labelTitle="First Name"
                 updateFormValue={updateFormValue}
+                required
               />
               <InputText
-                defaultValue={registerObj.name}
-                updateType="name"
+                defaultValue={registerObj.middle_name}
+                updateType="middle_name"
                 containerStyle="mt-4"
-                labelTitle="Second Name"
+                labelTitle="Middle Name"
                 updateFormValue={updateFormValue}
+                required
               />
               <InputText
-                defaultValue={registerObj.emailId}
-                updateType="emailId"
+                defaultValue={registerObj.last_name}
+                updateType="last_name"
+                containerStyle="mt-4"
+                labelTitle="Last Name"
+                updateFormValue={updateFormValue}
+                required
+              />
+              <InputText
+                defaultValue={registerObj.national_id}
+                updateType="national_id"
                 containerStyle="mt-4"
                 labelTitle="National Id"
                 updateFormValue={updateFormValue}
+                required
               />
               <InputText
-                defaultValue={registerObj.emailId}
+                defaultValue={registerObj.phone_number}
                 type="tel"
-                updateType="emailId"
+                updateType="phone_number"
                 containerStyle="mt-4"
                 labelTitle="Phone Number"
+                updateFormValue={updateFormValue}
+                required
+              />
+              <InputText
+                defaultValue={registerObj.email}
+                type="email"
+                updateType="email"
+                containerStyle="mt-4"
+                labelTitle="Email"
                 updateFormValue={updateFormValue}
               />
               <InputText
@@ -82,14 +147,16 @@ function Register() {
                 containerStyle="mt-4"
                 labelTitle="Password"
                 updateFormValue={updateFormValue}
+                required
               />
               <InputText
-                defaultValue={registerObj.password}
+                defaultValue={registerObj.confirmPassword}
                 type="password"
-                updateType="password"
+                updateType="confirmPassword"
                 containerStyle="mt-4"
                 labelTitle="Confirm Password"
                 updateFormValue={updateFormValue}
+                required
               />
             </div>
 
@@ -100,8 +167,9 @@ function Register() {
                 "btn mt-2 w-full bg-black text-white" +
                 (loading ? " loading" : "")
               }
+              disabled={loading}
             >
-              Register
+              {loading ? "Processing..." : "Register"}
             </button>
 
             <div className="text-center mt-4">

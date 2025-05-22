@@ -70,7 +70,7 @@ const routes = [
     component: Documents,
   },
   {
-    path: "/departments",
+    path: "/departments/:departmentId",
     component: Departments,
   },
 
@@ -79,7 +79,7 @@ const routes = [
     component: Esign,
   },
   {
-    path: "/book",
+    path: "/book/:serviceId",
     component: Book,
   },
   {

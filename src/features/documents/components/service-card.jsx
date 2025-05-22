@@ -26,11 +26,12 @@ import { Button } from "../../../lib/ui/button";
 import { Badge } from "../../../lib/ui/badge";
 
 export default function ServiceCard({
-  title,
+  name,
   description,
   icon,
   href,
   department,
+  serviceId,
 }) {
   const IconMap = {
     Plane,
@@ -57,7 +58,7 @@ export default function ServiceCard({
           <Icon className="h-5 w-5 text-primary" />
         </div>
         <div className="flex items-center justify-between">
-          <CardTitle>{title}</CardTitle>
+          <CardTitle>{name}</CardTitle>
         </div>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
@@ -67,7 +68,7 @@ export default function ServiceCard({
         </Badge>
       </CardContent>
       <CardFooter>
-        <Link to="/app/book" className="w-full">
+        <Link to={`/app/book/${serviceId}`} className="w-full">
           <Button variant="outline" className="w-full">
             Book Appointment
           </Button>

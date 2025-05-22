@@ -1,6 +1,5 @@
-"use client";
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { DocumentCard } from "../components/document-card";
 import { UploadDocument } from "../components/upload-document";
 import { DocumentDetails } from "../components/document-details";
@@ -18,29 +17,89 @@ export function Wallet() {
   const [selectedDocument, setSelectedDocument] = useState(null);
   const [isUploadOpen, setIsUploadOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const addDocument = (document) => {
-    setDocuments([...documents, document]);
-    setIsUploadOpen(false);
+  const authState = useSelector((state) => state.auth);
+  const citizenId = authState?.citizenId || localStorage.getItem("citizenId");
+  const token = localStorage.getItem("token");
+
+  const fetchDocuments = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/citizen/digital-document-list/${citizenId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setDocuments(data.documents || []);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const updateDocument = (updatedDoc) => {
-    setDocuments(
-      documents.map((doc) => (doc.id === updatedDoc.id ? updatedDoc : doc))
-    );
-    setSelectedDocument(updatedDoc);
-    setIsEditMode(false);
-  };
+  useEffect(() => {
+    if (citizenId && token) {
+      fetchDocuments();
+    }
+  }, [citizenId, token]);
 
-  const deleteDocument = (id) => {
-    setDocuments(documents.filter((doc) => doc.id !== id));
-    setSelectedDocument(null);
+  const handleDeleteDocument = async (documentId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/citizen/delete-document/${documentId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+
+      fetchDocuments();
+      setSelectedDocument(null);
+    } catch (err) {
+      console.error("Delete error:", err);
+      setError(err.message);
+    }
   };
 
   const handleSelectDocument = (document) => {
     setSelectedDocument(document);
     setIsEditMode(false);
   };
+
+  const handleCloseDetails = () => {
+    setSelectedDocument(null);
+  };
+
+  if (loading) {
+    return <div className="text-center py-10">Loading documents...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center py-10 text-red-500">{error}</div>;
+  }
 
   return (
     <div className="bg-white rounded-lg shadow-sm border p-4">
@@ -62,61 +121,46 @@ export function Wallet() {
         </div>
 
         <TabsContent value="all" className="mt-0">
-          <DocumentGrid
-            documents={documents}
-            onSelect={handleSelectDocument}
-            selectedId={selectedDocument?.id}
-          />
+          {selectedDocument ? (
+            <DocumentDetails
+              document={selectedDocument}
+              isEditMode={isEditMode}
+              onEdit={() => setIsEditMode(true)}
+              onUpdate={(updatedDoc) => {
+                setDocuments(
+                  documents.map((doc) =>
+                    doc.id === updatedDoc.id ? updatedDoc : doc
+                  )
+                );
+                setSelectedDocument(updatedDoc);
+                setIsEditMode(false);
+              }}
+              onDelete={handleDeleteDocument}
+              onCancel={handleCloseDetails}
+            />
+          ) : (
+            <DocumentGrid
+              documents={documents}
+              onSelect={handleSelectDocument}
+            />
+          )}
         </TabsContent>
       </Tabs>
 
-      {isUploadOpen && (
-        <UploadDocument
-          onUpload={addDocument}
-          onCancel={() => setIsUploadOpen(false)}
-          isOpen={isUploadOpen}
-          onClose={() => setIsUploadOpen(false)}
-        />
-      )}
-
-      {selectedDocument && !isUploadOpen && (
-        <DocumentDetails
-          document={selectedDocument}
-          isEditMode={isEditMode}
-          onEdit={() => setIsEditMode(true)}
-          onUpdate={updateDocument}
-          onDelete={deleteDocument}
-          onCancel={() => {
-            setIsEditMode(false);
-            setSelectedDocument(null);
-          }}
-        />
-      )}
-
-      {documents.length === 0 && !isUploadOpen && (
-        <div className="text-center py-12">
-          <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-            <Plus className="h-8 w-8 text-gray-400" />
-          </div>
-          <h3 className="text-lg font-medium mb-2">No documents yet</h3>
-          <p className="text-gray-500 mb-4">
-            Add your first document to get started
-          </p>
-          <Button onClick={() => setIsUploadOpen(true)}>
-            <Plus className="h-4 w-4 mr-2" />
-            Add Document
-          </Button>
-        </div>
-      )}
+      <UploadDocument
+        onCancel={() => setIsUploadOpen(false)}
+        isOpen={isUploadOpen}
+        onClose={() => setIsUploadOpen(false)}
+      />
     </div>
   );
 }
 
-function DocumentGrid({ documents, onSelect, selectedId }) {
+function DocumentGrid({ documents, onSelect }) {
   if (documents.length === 0) {
     return (
       <div className="text-center py-8 text-gray-500">
-        No documents in this category
+        No documents found. Click "Add Document" to upload your first document.
       </div>
     );
   }
@@ -125,10 +169,9 @@ function DocumentGrid({ documents, onSelect, selectedId }) {
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
       {documents.map((doc) => (
         <DocumentCard
-          key={doc.id}
+          key={doc.id || doc._id}
           document={doc}
           onClick={() => onSelect(doc)}
-          isSelected={doc.id === selectedId}
         />
       ))}
     </div>

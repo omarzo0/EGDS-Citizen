@@ -1,11 +1,84 @@
 import { Search } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../../lib/ui/button";
 import { Input } from "../../lib/ui/input";
 import ServiceCard from "./components/service-card";
 import DepartmentCard from "./components/department-card";
+import { useEffect, useState } from "react";
 
 export default function HomePage() {
+  const [departments, setDepartments] = useState([]);
+  const navigate = useNavigate();
+
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState({
+    departments: true,
+    services: true,
+  });
+  const [error, setError] = useState({
+    departments: null,
+    services: null,
+  });
+
+  useEffect(() => {
+    // Fetch departments
+    fetch("http://localhost:5000/api/citizen/department-list")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch departments");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const transformedDepartments = data?.map((dept) => ({
+          departmentId: dept.id || dept.departmentId,
+          title: dept.name || dept.title,
+          description: dept.description,
+          icon: dept.icon || "FileText",
+          color: `bg-${dept.color || "blue"}-50`,
+          iconColor: `text-${dept.color || "blue"}-500`,
+        }));
+        setDepartments(transformedDepartments);
+        setLoading((prev) => ({ ...prev, departments: false }));
+      })
+      .catch((err) => {
+        setError((prev) => ({ ...prev, departments: err.message }));
+        setLoading((prev) => ({ ...prev, departments: false }));
+      });
+
+    // Fetch services
+    fetch("http://localhost:5000/api/citizen/services-list")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch services");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (!data || !data.services || !Array.isArray(data.services)) {
+          throw new Error("Invalid services data format");
+        }
+
+        const transformedServices = data.services.map((service) => ({
+          _id: service._id,
+          name: service.name,
+          Description: service.Description,
+          icon: "FileText",
+          href: `/services/${service._id}`,
+          department: service.department_id?.name || "Government Department",
+        }));
+
+        setServices(transformedServices);
+        setLoading((prev) => ({ ...prev, services: false }));
+      })
+      .catch((err) => {
+        setError((prev) => ({ ...prev, services: err.message }));
+        setLoading((prev) => ({ ...prev, services: false }));
+      });
+  }, []);
+  const handleViewServices = (departmentId) => {
+    navigate(`/departments/${departmentId}/services`);
+  };
   return (
     <div className="min-h-screen bg-gray-50">
       <main className="container mx-auto px-4 py-12">
@@ -34,105 +107,70 @@ export default function HomePage() {
           <h3 className="mb-6 text-2xl font-semibold">
             Government Departments
           </h3>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <DepartmentCard
-              departmentId="civil-registry"
-              title="Civil Registry"
-              description="Birth, marriage, and death certificates"
-              icon="FileText"
-              href="../departments/civil-registry"
-              color="bg-blue-50"
-              iconColor="text-blue-500"
-            />
-            <DepartmentCard
-              title="Immigration & Passports"
-              description="Passport applications, renewals, and visa services"
-              icon="Plane"
-              href="/departments/immigration"
-              color="bg-green-50"
-              iconColor="text-green-500"
-            />
-            <DepartmentCard
-              title="National ID"
-              description="National ID cards, renewals, and updates"
-              icon="CreditCard"
-              href="/departments/national-id"
-              color="bg-purple-50"
-              iconColor="text-purple-500"
-            />
-            <DepartmentCard
-              title="Driver & Vehicle"
-              description="Driver's licenses, vehicle registration, and permits"
-              icon="Car"
-              href="/departments/driver-vehicle"
-              color="bg-orange-50"
-              iconColor="text-orange-500"
-            />
-            <DepartmentCard
-              title="Tax & Revenue"
-              description="Tax filing, business registration, and tax ID"
-              icon="Receipt"
-              href="/departments/tax"
-              color="bg-red-50"
-              iconColor="text-red-500"
-            />
-            <DepartmentCard
-              title="Property & Land"
-              description="Property titles, deeds, and land registration"
-              icon="Home"
-              href="/departments/property"
-              color="bg-teal-50"
-              iconColor="text-teal-500"
-            />
-          </div>
+          {loading.departments ? (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {[...Array(6)].map((_, i) => (
+                <div
+                  key={i}
+                  className="h-48 animate-pulse rounded-lg bg-gray-200"
+                ></div>
+              ))}
+            </div>
+          ) : error.departments ? (
+            <div className="rounded-lg bg-red-50 p-4 text-red-600">
+              Error loading departments: {error.departments}
+            </div>
+          ) : (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {departments.map((department) => (
+                <DepartmentCard
+                  key={department.departmentId}
+                  departmentId={department.departmentId}
+                  title={department.title}
+                  description={department.description}
+                  icon={department.icon}
+                  href={department.href}
+                  color={department.color}
+                  iconColor={department.iconColor}
+                  onViewServices={() =>
+                    handleViewServices(department.departmentId)
+                  }
+                />
+              ))}
+            </div>
+          )}
         </section>
 
         <section className="mb-16">
           <h3 className="mb-6 text-2xl font-semibold">Popular Services</h3>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <ServiceCard
-              title="Passport Application"
-              description="Apply for a new passport or renew an existing one"
-              icon="Plane"
-              href="/services/passport"
-              department="Immigration & Passports"
-            />
-            <ServiceCard
-              title="Birth Certificate"
-              description="Request a copy of a birth certificate"
-              icon="FileText"
-              href="/services/birth-certificate"
-              department="Civil Registry"
-            />
-            <ServiceCard
-              title="Driver's License"
-              description="Apply for or renew your driver's license"
-              icon="Car"
-              href="/services/drivers-license"
-              department="Driver & Vehicle"
-            />
-            <ServiceCard
-              title="National ID Card"
-              description="Apply for a new national ID card or renew existing one"
-              icon="CreditCard"
-              href="/services/national-id"
-              department="National ID"
-            />
-            <ServiceCard
-              title="Marriage Certificate"
-              description="Request a copy of a marriage certificate"
-              icon="Heart"
-              href="/services/marriage-certificate"
-              department="Civil Registry"
-            />
-            <ServiceCard
-              title="Property Title"
-              description="Register property or request title documents"
-              icon="Home"
-              href="/services/property-title"
-              department="Property & Land"
-            />
-          </div>
+          {loading.services ? (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {[...Array(6)]?.map((_, i) => (
+                <div
+                  key={i}
+                  className="h-48 animate-pulse rounded-lg bg-gray-200"
+                ></div>
+              ))}
+            </div>
+          ) : error.services ? (
+            <div className="rounded-lg bg-red-50 p-4 text-red-600">
+              Error loading services: {error.services}
+            </div>
+          ) : (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {services?.map((service) => (
+                <ServiceCard
+                  key={service._id}
+                  name={service.name}
+                  description={service.Description}
+                  icon={service.icon}
+                  href={`/services/${service._id}`}
+                  department={service.department_id?.name}
+                  serviceId={service._id}
+                />
+              ))}
+            </div>
+          )}
         </section>
 
         <section className="mb-16">
@@ -188,27 +226,27 @@ export default function HomePage() {
               <h4 className="mb-4 text-lg font-semibold">Quick Links</h4>
               <ul className="space-y-2 text-gray-300">
                 <li>
-                  <Link href="/" className="hover:text-white">
+                  <Link to="/" className="hover:text-white">
                     Home
                   </Link>
                 </li>
                 <li>
-                  <Link href="/services" className="hover:text-white">
+                  <Link to="/services" className="hover:text-white">
                     All Services
                   </Link>
                 </li>
                 <li>
-                  <Link href="/departments" className="hover:text-white">
+                  <Link to="/departments" className="hover:text-white">
                     Departments
                   </Link>
                 </li>
                 <li>
-                  <Link href="/locations" className="hover:text-white">
+                  <Link to="/locations" className="hover:text-white">
                     Locations
                   </Link>
                 </li>
                 <li>
-                  <Link href="/faq" className="hover:text-white">
+                  <Link to="/faq" className="hover:text-white">
                     FAQ
                   </Link>
                 </li>
@@ -228,12 +266,12 @@ export default function HomePage() {
                 Get updates on new services and features
               </p>
               <div className="flex">
-                <input
+                <Input
                   type="email"
                   placeholder="Your email"
                   className="rounded-r-none bg-gray-700 text-white"
                 />
-                <button className="rounded-l-none">Subscribe</button>
+                <Button className="rounded-l-none">Subscribe</Button>
               </div>
             </div>
           </div>

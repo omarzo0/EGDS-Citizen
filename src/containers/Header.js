@@ -18,6 +18,7 @@ function Header() {
     localStorage.getItem("theme")
   );
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const mobileMenuRef = useRef(null);
 
   useEffect(() => {
@@ -32,9 +33,14 @@ function Header() {
         setCurrentTheme("light");
       }
     }
+
+    // Check if user is logged in
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
   }, [currentTheme]);
 
   const openNotification = () => {
+    if (!isLoggedIn) return;
     dispatch(
       openRightDrawer({
         header: "Notifications",
@@ -69,6 +75,12 @@ function Header() {
     i18n.changeLanguage(i18n.language === "en" ? "ar" : "en");
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setIsLoggedIn(false);
+  };
+
   return (
     <div className="navbar sticky top-0 bg-base-100 z-10 shadow-md">
       <div className="flex-1">
@@ -82,7 +94,10 @@ function Header() {
       <nav className="bg-white fixed w-full shadow-md z-50 mt-1">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           {/* Brand Logo */}
-          <Link className="text-xl font-bold text-black ml-10" to="/app/Home">
+          <Link
+            className="text-xl font-bold text-black ml-10"
+            to={isLoggedIn ? "/app/Home" : "/"}
+          >
             EGR System
           </Link>
 
@@ -108,78 +123,98 @@ function Header() {
             }`}
           >
             <ul className="flex flex-col lg:flex-row lg:space-x-6 text-black mt-4 lg:mt-0">
-              <li>
-                <Link
-                  to="/app/Home"
-                  className="block py-2 hover:text-[#BE3144]"
-                >
-                  {t("home")}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/app/profile"
-                  className="block py-2 hover:text-[#BE3144]"
-                >
-                  {t("profile")}
-                </Link>
-              </li>
-              {/* <li>
-                <Link
-                  to="/app/provider"
-                  className="block py-2 hover:text-[#BE3144]"
-                >
-                  {t("providers2")}
-                </Link>
-              </li> */}
-              <li>
-                <a
-                  href="/app/digitalwallet"
-                  className="block py-2 hover:text-[#BE3144]"
-                >
-                  {t("digital_wallet")}
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/app/documents"
-                  className="block py-2 hover:text-[#BE3144]"
-                >
-                  {t("documents")}
-                </a>
-              </li>
-              {/* <li>
-                <Link
-                  to="/app/settings-profile"
-                  className="block py-2 hover:text-[#BE3144]"
-                >
-                  {t("settings")}
-                </Link>
-              </li> */}
-              <li>
-                <Link to="/login" className="block py-2 hover:text-[#BE3144]">
-                  {t("login")}
-                </Link>
-              </li>
+              {isLoggedIn ? (
+                <>
+                  <li>
+                    <Link
+                      to="/app/Home"
+                      className="block py-2 hover:text-[#BE3144]"
+                    >
+                      {t("home")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/app/profile"
+                      className="block py-2 hover:text-[#BE3144]"
+                    >
+                      {t("profile")}
+                    </Link>
+                  </li>
+                  <li>
+                    <a
+                      href="/app/digitalwallet"
+                      className="block py-2 hover:text-[#BE3144]"
+                    >
+                      {t("digital_wallet")}
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/app/documents"
+                      className="block py-2 hover:text-[#BE3144]"
+                    >
+                      {t("documents")}
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/app/esign"
+                      className="block py-2 hover:text-[#BE3144]"
+                    >
+                      {t("E-signature")}
+                    </a>
+                  </li>
+                  <li>
+                    <button
+                      onClick={handleLogout}
+                      className="block py-2 hover:text-[#BE3144]"
+                    >
+                      {t("logout")}
+                    </button>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li>
+                    <Link
+                      to="/login"
+                      className="block py-2 hover:text-[#BE3144]"
+                    >
+                      {t("login")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/register"
+                      className="block py-2 hover:text-[#BE3144]"
+                    >
+                      {t("register")}
+                    </Link>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </div>
 
-        <div className="flex-none">
-          <button
-            className="btn btn-ghost mr-2 btn-circle"
-            onClick={openNotification}
-          >
-            <div className="indicator">
-              <BellIcon className="h-6 w-6" />
-              {noOfNotifications > 0 ? (
-                <span className="indicator-item badge bg-[#E17564] badge-sm">
-                  {noOfNotifications}
-                </span>
-              ) : null}
-            </div>
-          </button>
-        </div>
+        {isLoggedIn && (
+          <div className="flex-none">
+            <button
+              className="btn btn-ghost mr-2 btn-circle"
+              onClick={openNotification}
+            >
+              <div className="indicator">
+                <BellIcon className="h-6 w-6" />
+                {noOfNotifications > 0 ? (
+                  <span className="indicator-item badge bg-[#E17564] badge-sm">
+                    {noOfNotifications}
+                  </span>
+                ) : null}
+              </div>
+            </button>
+          </div>
+        )}
 
         {/* Language Switch Button */}
         <button onClick={toggleLanguage} className="text-black mr-6">

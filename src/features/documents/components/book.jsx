@@ -1,5 +1,5 @@
 import { ArrowLeft, Calendar, Clock, MapPin } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Button } from "../../../lib/ui/button";
 import {
   Card,
@@ -10,132 +10,86 @@ import {
 } from "../../../lib/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../lib/ui/tabs";
 import { Badge } from "../../../lib/ui/badge";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function ServicePage({ params }) {
-  const serviceMap = {
-    passport: {
-      title: "Passport Application",
-      description: "Apply for a new passport or renew an existing one",
-      department: "Immigration & Passports",
-      requirements: [
-        "Proof of citizenship (birth certificate or citizenship certificate)",
-        "Valid government-issued photo ID",
-        "Passport-sized photograph (taken within the last 6 months)",
-        "Completed application form",
-        "Payment of applicable fees",
-      ],
-      processingTime: "4-6 weeks (standard) or 2-3 weeks (expedited)",
-      fee: "$145.00 (standard) or $195.00 (expedited)",
-      eligibility:
-        "Citizens who have never had a passport or whose previous passport was issued when they were under 16 years of age.",
-    },
-    "birth-certificate": {
-      title: "Birth Certificate",
-      description: "Request a copy of a birth certificate",
-      department: "Civil Registry",
-      requirements: [
-        "Valid government-issued photo ID",
-        "Completed application form",
-        "Payment of applicable fees",
-      ],
-      processingTime: "3-5 business days",
-      fee: "$25.00",
-      eligibility:
-        "You can request your own birth certificate, or that of your child if you are the parent. Legal guardians may also request birth certificates for minors under their care. Immediate family members may request a birth certificate in certain circumstances.",
-    },
-    "drivers-license": {
-      title: "Driver's License",
-      description: "Apply for or renew your driver's license",
-      department: "Driver & Vehicle",
-      requirements: [
-        "Proof of identity (birth certificate, passport, etc.)",
-        "Proof of residency (utility bill, bank statement, etc.)",
-        "Social Security Number or equivalent",
-        "Completed application form",
-        "Pass vision test, written test, and driving test",
-        "Payment of applicable fees",
-      ],
-      processingTime: "7-10 business days after passing all tests",
-      fee: "$60.00 (valid for 5 years)",
-      eligibility:
-        "Residents who meet the minimum age requirement (usually 16 years) and can pass all required tests.",
-    },
-    "national-id": {
-      title: "National ID Card",
-      description: "Apply for a new national ID card or renew an existing one",
-      department: "National ID",
-      requirements: [
-        "Proof of identity (birth certificate, passport, etc.)",
-        "Proof of address (utility bill, bank statement, etc.)",
-        "Passport-sized photograph (taken within the last 6 months)",
-        "Completed application form",
-        "Payment of applicable fees",
-      ],
-      processingTime: "10-15 business days",
-      fee: "$25.00",
-      eligibility: "All citizens and legal residents over the age of 18.",
-    },
-    "marriage-certificate": {
-      title: "Marriage Certificate",
-      description: "Request a copy of a marriage certificate",
-      department: "Civil Registry",
-      requirements: [
-        "Valid government-issued photo ID",
-        "Information about the marriage (date, location, names)",
-        "Completed application form",
-        "Payment of applicable fees",
-      ],
-      processingTime: "3-5 business days",
-      fee: "$25.00",
-      eligibility:
-        "Either spouse named on the certificate, immediate family members in certain circumstances, or legal representatives with proper authorization.",
-    },
-    "property-title": {
-      title: "Property Title",
-      description: "Register property or request title documents",
-      department: "Property & Land",
-      requirements: [
-        "Proof of ownership (deed, bill of sale, etc.)",
-        "Property survey",
-        "Identification documents",
-        "Completed application form",
-        "Payment of applicable fees",
-      ],
-      processingTime: "15-20 business days",
-      fee: "$75.00 plus applicable recording fees",
-      eligibility: "Property owners or their authorized representatives.",
-    },
-  };
-  const [activeTab, setActiveTab] = useState("requirements");
-  const handleTabChange = (value) => {
-    if (value === "requirements" || value === "locations") {
-      setActiveTab("info"); // Show "Information" tab when clicking "Requirements" or "Locations"
-    } else {
-      setActiveTab(value);
-    }
-  };
-  const serviceInfo = {
-    title: "Service Information",
-    description: "Details about this service.",
-    department: "Government Department",
-    requirements: ["Documentation required for this service"],
-    processingTime: "Processing time varies",
-    fee: "Fee information",
-    eligibility: "Eligibility criteria for this service",
-  };
+export default function ServicePage() {
+  const [serviceInfo, setServiceInfo] = useState({
+    title: "",
+    description: "",
+    department: "",
+    requirements: [],
+    processing_time: "",
+    fees: "",
+    eligibility: "",
+    loading: true,
+    error: null,
+  });
+  const [activeTab, setActiveTab] = useState("info");
+  const { serviceId } = useParams();
+
+  useEffect(() => {
+    const fetchServiceDetails = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/citizen/services-list/${serviceId}`
+        );
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Failed to fetch service details");
+        }
+
+        setServiceInfo({
+          title: data.service.name,
+          description: data.service.Description,
+          availableLocations: data.service.availableLocations,
+          department:
+            data.service.department_id?.name || "Government Department",
+          requirements: data.service.requirements || [
+            "Proof of identity",
+            "Completed application form",
+            "Payment of applicable fees",
+          ],
+          processing_time: data.service.processing_time || "4 to 6 days",
+          fees: data.service.fees
+            ? `$${data.service.fees.toFixed(2)}`
+            : "Fee information",
+          eligibility:
+            data.service.eligibility || "Eligibility criteria for this service",
+          loading: false,
+          error: null,
+        });
+      } catch (error) {
+        setServiceInfo((prev) => ({
+          ...prev,
+          loading: false,
+          error: error.message,
+        }));
+      }
+    };
+
+    fetchServiceDetails();
+  }, [serviceId]);
+
+  if (serviceInfo.loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div>Loading service details...</div>
+      </div>
+    );
+  }
+
+  if (serviceInfo.error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-red-500">Error: {serviceInfo.error}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
       <main className="container mx-auto px-4 py-12">
-        <Link
-          to="/app/departments"
-          className="mb-6 flex items-center text-sm font-medium text-gray-600 hover:text-primary"
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to services
-        </Link>
-
         <div className="mb-8">
           <div className="flex items-center gap-3">
             <h2 className="mb-2 text-3xl font-bold">{serviceInfo.title}</h2>
@@ -147,11 +101,6 @@ export default function ServicePage({ params }) {
         <div className="grid gap-8 lg:grid-cols-3">
           <div className="lg:col-span-2">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="info">Information</TabsTrigger>
-                <TabsTrigger value="requirements">Requirements</TabsTrigger>
-                <TabsTrigger value="locations">Locations</TabsTrigger>
-              </TabsList>
               <TabsContent value="info" className="rounded-lg border p-6">
                 <h3 className="mb-4 text-xl font-semibold">Service Details</h3>
                 <div className="space-y-4">
@@ -159,30 +108,11 @@ export default function ServicePage({ params }) {
                     <h4 className="font-medium text-gray-700">
                       Processing Time
                     </h4>
-                    <p>{serviceInfo.processingTime}</p>
+                    <p>{serviceInfo.processing_time}</p>
                   </div>
                   <div>
                     <h4 className="font-medium text-gray-700">Fee</h4>
-                    <p>{serviceInfo.fee}</p>
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-gray-700">
-                      Payment Methods
-                    </h4>
-                    <p>Credit/debit card, cash, or money order</p>
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-gray-700">Eligibility</h4>
-                    <p>{serviceInfo.eligibility}</p>
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-gray-700">
-                      Additional Information
-                    </h4>
-                    <p>
-                      Please arrive 15 minutes before your scheduled appointment
-                      time. Bring all required documents to avoid delays.
-                    </p>
+                    <p>{serviceInfo.fees}</p>
                   </div>
                 </div>
               </TabsContent>
@@ -193,65 +123,37 @@ export default function ServicePage({ params }) {
                 <h3 className="mb-4 text-xl font-semibold">
                   Required Documents
                 </h3>
-                <ul className="list-inside list-disc space-y-2">
-                  {serviceInfo.requirements.map((req, index) => (
-                    <li key={index}>{req}</li>
-                  ))}
-                </ul>
-                <div className="mt-6">
-                  <h4 className="mb-2 font-medium text-gray-700">
-                    Important Notes
-                  </h4>
-                  <ul className="list-inside list-disc space-y-2 text-gray-600">
-                    <li>All documents must be original or certified copies</li>
-                    <li>
-                      Foreign documents must be translated to English by a
-                      certified translator
-                    </li>
-                    <li>Proof of address must be less than 3 months old</li>
-                    <li>Photo ID must be current and not expired</li>
-                  </ul>
-                </div>
               </TabsContent>
               <TabsContent value="locations" className="rounded-lg border p-6">
                 <h3 className="mb-4 text-xl font-semibold">
                   Available Locations
                 </h3>
-                <div className="space-y-4">
-                  <div className="rounded-lg border p-4">
-                    <h4 className="font-semibold">Main Office</h4>
-                    <div className="mt-2 flex items-start">
-                      <MapPin className="mr-2 h-5 w-5 text-gray-500" />
-                      <p>123 Government St, Downtown, City 10001</p>
-                    </div>
-                    <div className="mt-2 flex items-start">
-                      <Clock className="mr-2 h-5 w-5 text-gray-500" />
-                      <p>Mon-Fri: 8:00 AM - 5:00 PM</p>
-                    </div>
+                {serviceInfo?.availableLocations?.length > 0 && (
+                  <div className="mt-4 space-y-2">
+                    <p className="text-sm font-medium text-gray-700">
+                      Available Locations:
+                    </p>
+                    {serviceInfo?.availableLocations?.map((location, index) => (
+                      <div
+                        key={index}
+                        className="text-sm text-gray-600 pl-2 border-l border-gray-300"
+                      >
+                        <p>
+                          <span className="font-semibold">Name:</span>{" "}
+                          {location.name}
+                        </p>
+                        <p>
+                          <span className="font-semibold">Address:</span>{" "}
+                          {location.address}
+                        </p>
+                        <p>
+                          <span className="font-semibold">Hours:</span>{" "}
+                          {location.operatingHours}
+                        </p>
+                      </div>
+                    ))}
                   </div>
-                  <div className="rounded-lg border p-4">
-                    <h4 className="font-semibold">Westside Branch</h4>
-                    <div className="mt-2 flex items-start">
-                      <MapPin className="mr-2 h-5 w-5 text-gray-500" />
-                      <p>456 West Ave, Westside, City 10002</p>
-                    </div>
-                    <div className="mt-2 flex items-start">
-                      <Clock className="mr-2 h-5 w-5 text-gray-500" />
-                      <p>Mon-Fri: 9:00 AM - 6:00 PM, Sat: 9:00 AM - 1:00 PM</p>
-                    </div>
-                  </div>
-                  <div className="rounded-lg border p-4">
-                    <h4 className="font-semibold">Eastside Branch</h4>
-                    <div className="mt-2 flex items-start">
-                      <MapPin className="mr-2 h-5 w-5 text-gray-500" />
-                      <p>789 East Blvd, Eastside, City 10003</p>
-                    </div>
-                    <div className="mt-2 flex items-start">
-                      <Clock className="mr-2 h-5 w-5 text-gray-500" />
-                      <p>Mon-Fri: 8:30 AM - 5:30 PM</p>
-                    </div>
-                  </div>
-                </div>
+                )}
               </TabsContent>
             </Tabs>
           </div>
@@ -265,11 +167,12 @@ export default function ServicePage({ params }) {
               <CardContent>
                 <div className="mb-4 flex items-center">
                   <Calendar className="mr-2 h-5 w-5 text-gray-500" />
-                  <span>
-                    We will send your notify you when the document finished
-                  </span>
+                  <span>We will notify you when the document is ready</span>
                 </div>
-                <Link to={`/app/application`} className="w-full">
+                <Link
+                  to={`/app/application?serviceId=${serviceId}`}
+                  className="w-full"
+                >
                   <Button className="w-full">Fill the form</Button>
                 </Link>
               </CardContent>
@@ -277,79 +180,6 @@ export default function ServicePage({ params }) {
           </div>
         </div>
       </main>
-
-      <footer className="bg-gray-800 py-12 text-white">
-        <div className="container mx-auto px-4">
-          <div className="grid gap-8 md:grid-cols-4">
-            <div>
-              <h4 className="mb-4 text-lg font-semibold">
-                Government Services Portal
-              </h4>
-              <p className="text-gray-300">
-                Making government services accessible to everyone.
-              </p>
-            </div>
-            <div>
-              <h4 className="mb-4 text-lg font-semibold">Quick Links</h4>
-              <ul className="space-y-2 text-gray-300">
-                <li>
-                  <Link href="/" className="hover:text-white">
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/services" className="hover:text-white">
-                    All Services
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/departments" className="hover:text-white">
-                    Departments
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/locations" className="hover:text-white">
-                    Locations
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/faq" className="hover:text-white">
-                    FAQ
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="mb-4 text-lg font-semibold">Contact</h4>
-              <ul className="space-y-2 text-gray-300">
-                <li>Email: support@govservices.gov</li>
-                <li>Phone: 19990</li>
-                <li>Hours: Sun-Fri, 7am-5pm</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="mb-4 text-lg font-semibold">Subscribe</h4>
-              <p className="mb-2 text-gray-300">
-                Get updates on new services and features
-              </p>
-              <div className="flex">
-                <input
-                  type="email"
-                  placeholder="Your email"
-                  className="rounded-r-none bg-gray-700 text-white"
-                />
-                <button className="rounded-l-none">Subscribe</button>
-              </div>
-            </div>
-          </div>
-          <div className="mt-8 border-t border-gray-700 pt-8 text-center text-gray-300">
-            <p>
-              © {new Date().getFullYear()} Government Services Portal. All
-              rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

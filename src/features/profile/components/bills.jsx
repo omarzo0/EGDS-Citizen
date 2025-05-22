@@ -1,118 +1,90 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CardContent } from "@mui/material";
 import moment from "moment";
+import { useSelector } from "react-redux";
 
 function Digitalwallet() {
-  const BILLS = [
-    {
-      invoiceNo: "#4567",
-      amount: "23,989",
-      description: "National ID renewed",
-      status: "Pending",
-      generatedOn: moment(new Date())
-        .add(-30 * 1, "days")
-        .format("DD MMM YYYY"),
-      paidOn: "-",
-    },
+  const [payments, setPayments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    {
-      invoiceNo: "#4523",
-      amount: "34,989",
-      description: "New Passport ",
-      status: "Pending",
-      generatedOn: moment(new Date())
-        .add(-30 * 2, "days")
-        .format("DD MMM YYYY"),
-      paidOn: "-",
-    },
+  const authState = useSelector((state) => state.auth);
+  const citizenId = authState?.citizenId || localStorage.getItem("citizenId");
+  const token = localStorage.getItem("token");
 
-    {
-      invoiceNo: "#4453",
-      amount: "39,989",
-      description: "Birth certificate",
-      status: "Paid",
-      generatedOn: moment(new Date())
-        .add(-30 * 3, "days")
-        .format("DD MMM YYYY"),
-      paidOn: moment(new Date())
-        .add(-24 * 2, "days")
-        .format("DD MMM YYYY"),
-    },
+  useEffect(() => {
+    const fetchPayments = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/citizen/payment-citizen/${citizenId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-    {
-      invoiceNo: "#4359",
-      amount: "28,927",
-      description: "Driver licenses",
-      status: "Paid",
-      generatedOn: moment(new Date())
-        .add(-30 * 4, "days")
-        .format("DD MMM YYYY"),
-      paidOn: moment(new Date())
-        .add(-24 * 3, "days")
-        .format("DD MMM YYYY"),
-    },
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status}`);
+        }
 
-    {
-      invoiceNo: "#3359",
-      amount: "28,927",
-      description: "vehicle registration",
-      status: "Paid",
-      generatedOn: moment(new Date())
-        .add(-30 * 5, "days")
-        .format("DD MMM YYYY"),
-      paidOn: moment(new Date())
-        .add(-24 * 4, "days")
-        .format("DD MMM YYYY"),
-    },
+        const data = await response.json();
+        if (data.success) {
+          setPayments(data.data || []);
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    {
-      invoiceNo: "#3367",
-      amount: "28,927",
-      description: "Tax filling",
-      status: "Paid",
-      generatedOn: moment(new Date())
-        .add(-30 * 6, "days")
-        .format("DD MMM YYYY"),
-      paidOn: moment(new Date())
-        .add(-24 * 5, "days")
-        .format("DD MMM YYYY"),
-    },
-
-    {
-      invoiceNo: "#3359",
-      amount: "28,927",
-      description: "property Title",
-      status: "Paid",
-      generatedOn: moment(new Date())
-        .add(-30 * 7, "days")
-        .format("DD MMM YYYY"),
-      paidOn: moment(new Date())
-        .add(-24 * 6, "days")
-        .format("DD MMM YYYY"),
-    },
-
-    {
-      invoiceNo: "#2359",
-      amount: "28,927",
-      description: "Marriage Certificate",
-      status: "Paid",
-      generatedOn: moment(new Date())
-        .add(-30 * 8, "days")
-        .format("DD MMM YYYY"),
-      paidOn: moment(new Date())
-        .add(-24 * 7, "days")
-        .format("DD MMM YYYY"),
-    },
-  ];
-  const [bills, setBills] = useState(BILLS);
+    fetchPayments();
+  }, [citizenId, token]);
 
   const getPaymentStatus = (status) => {
-    if (status === "Paid")
-      return <div className="badge badge-success">{status}</div>;
-    if (status === "Pending")
-      return <div className="badge badge-primary">{status}</div>;
-    else return <div className="badge badge-ghost">{status}</div>;
+    switch (status.toLowerCase()) {
+      case "completed":
+        return <span className="badge badge-success">Paid</span>;
+      case "pending":
+        return <span className="badge badge-warning">Pending</span>;
+      case "failed":
+        return <span className="badge badge-error">Failed</span>;
+      default:
+        return <span className="badge badge-ghost">Unknown</span>;
+    }
   };
+
+  const formatDate = (dateString) => {
+    return moment(new Date(dateString)).format("DD MMM YYYY");
+  };
+
+  if (loading) {
+    return (
+      <CardContent>
+        <div className="text-center">Loading payment history...</div>
+      </CardContent>
+    );
+  }
+
+  if (payments.length === 0) {
+    return (
+      <CardContent>
+        <div className="text-center py-8">
+          <div className="text-xl font-medium text-gray-500 mb-2">
+            No payments found
+          </div>
+          <p className="text-gray-400">
+            You haven't made any payments yet. Your payment history will appear
+            here.
+          </p>
+        </div>
+      </CardContent>
+    );
+  }
+
   return (
     <CardContent>
       <div className="overflow-x-auto w-full">
@@ -120,26 +92,29 @@ function Digitalwallet() {
           <thead>
             <tr>
               <th>Invoice No</th>
-              <th>Invoice Generated On</th>
-              <th>Description</th>
+              <th>Payment Date</th>
+              <th>Service</th>
               <th>Amount</th>
               <th>Status</th>
-              <th>Invoice Paid On</th>
             </tr>
           </thead>
           <tbody>
-            {bills.map((l, k) => {
-              return (
-                <tr key={k}>
-                  <td>{l.invoiceNo}</td>
-                  <td>{l.generatedOn}</td>
-                  <td>{l.description}</td>
-                  <td>{l.amount} LE</td>
-                  <td>{getPaymentStatus(l.status)}</td>
-                  <td>{l.paidOn}</td>
-                </tr>
-              );
-            })}
+            {payments.map((payment, index) => (
+              <tr key={index}>
+                <td>
+                  {payment.invoice_number ||
+                    `#${Math.floor(Math.random() * 10000)}`}
+                </td>
+                <td>{formatDate(payment.payment_date)}</td>
+                <td>{payment.service?.name || "Unknown Service"}</td>
+                <td>
+                  {payment.amount
+                    ? `${payment.amount} ${payment.currency || "EGP"}`
+                    : "N/A"}
+                </td>
+                <td>{getPaymentStatus(payment.status)}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

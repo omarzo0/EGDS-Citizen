@@ -1,7 +1,6 @@
 import { ArrowLeft } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../../../lib/ui/button";
-
 import {
   Card,
   CardContent,
@@ -12,7 +11,6 @@ import {
 } from "../../../lib/ui/card";
 import { Input } from "../../../lib/ui/input";
 import { Label } from "../../../lib/ui/label";
-
 import {
   Select,
   SelectItem,
@@ -20,52 +18,168 @@ import {
   SelectValue,
 } from "../../../lib/ui/select";
 import { Badge } from "../../../lib/ui/badge";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { showNotification } from "../../common/headerSlice";
+import { useDispatch } from "react-redux";
 
-export default function BookingPage({ params }) {
-  // This would come from a database in a real application
-  const serviceMap = {
-    "birth-certificate": {
-      title: "Birth Certificate",
-      department: "Civil Registry",
-    },
-    "passport-new": {
-      title: "New Passport Application",
-      department: "Immigration & Passports",
-    },
-    "drivers-license-new": {
-      title: "New Driver's License",
-      department: "Driver & Vehicle",
-    },
-    "national-id": {
-      title: "National ID Card",
-      department: "National ID",
-    },
-    "property-title": {
-      title: "Property Title",
-      department: "Property & Land",
-    },
-    "marriage-certificate": {
-      title: "Marriage Certificate",
-      department: "Civil Registry",
-    },
+export default function BookingPage() {
+  const dispatch = useDispatch();
+
+  const [serviceInfo, setServiceInfo] = useState({
+    title: "",
+    description: "",
+    department: "",
+    department_id: "",
+    requirements: [],
+    processing_time: "",
+    fees: "",
+    eligibility: "",
+    loading: true,
+    error: null,
+  });
+
+  const [formData, setFormData] = useState({
+    preferred_contact_method: "Phone",
+    location: "main",
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
+
+  const { search } = useLocation();
+  const queryParams = new URLSearchParams(search);
+  const serviceid = queryParams.get("serviceId");
+
+  useEffect(() => {
+    if (!serviceid) return;
+
+    const fetchServiceDetails = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/citizen/services-list/${serviceid}`
+        );
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Failed to fetch service details");
+        }
+
+        setServiceInfo({
+          title: data.service.name,
+          description: data.service.Description,
+          department:
+            data.service.department_id?.name || "Government Department",
+          department_id: data.service.department_id?._id || "",
+          requirements: data.service.requirements || [
+            "Proof of identity",
+            "Completed application form",
+            "Payment of applicable fees",
+          ],
+          processing_time: data.service.processing_time || "4 to 6 days",
+          fees: data.service.fees
+            ? `$${data.service.fees.toFixed(2)}`
+            : "Fee information",
+          eligibility:
+            data.service.eligibility || "Eligibility criteria for this service",
+          loading: false,
+          error: null,
+        });
+      } catch (error) {
+        setServiceInfo((prev) => ({
+          ...prev,
+          loading: false,
+          error: error.message,
+        }));
+      }
+    };
+
+    fetchServiceDetails();
+  }, [serviceid]);
+
+  const authState = useSelector((state) => state.auth);
+  const citizenId = authState?.citizenId || localStorage.getItem("citizenId");
+  const token = localStorage.getItem("token");
+
+  const handleSelectChange = (name, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  const serviceInfo = {
-    title: "Service Booking",
-    department: "Government Department",
+  const handleSubmit = async () => {
+    if (!serviceid) {
+      dispatch(
+        showNotification({
+          message: "Please select a service",
+          status: 0,
+        })
+      );
+      return;
+    }
+
+    if (!citizenId) {
+      dispatch(
+        showNotification({
+          message: "Please login to continue",
+          status: 0,
+        })
+      );
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/citizen/documents",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            citizen_id: citizenId,
+            serviceid: serviceid,
+            department_id: serviceInfo.department_id,
+            preferred_contact_method: formData.preferred_contact_method,
+            status: "Pending",
+            amount: serviceInfo.fees.replace(/\D/g, ""),
+            location: formData.location,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to create document");
+      }
+
+      dispatch(
+        showNotification({
+          message: "Document created successfully!",
+          status: 1,
+        })
+      );
+      navigate(`/app/payment?documentId=${data.data._id}`);
+    } catch (error) {
+      dispatch(
+        showNotification({
+          message: error.message || "Error creating document",
+          status: 0,
+        })
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
       <main className="container mx-auto px-4 py-12">
-        <Link
-          to={`/app/book`}
-          className="mb-6 flex items-center text-sm font-medium text-gray-600 hover:text-primary"
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to document details
-        </Link>
-
         <div className="mb-8">
           <div className="flex items-center gap-3">
             <h2 className="mb-2 text-3xl font-bold">Book an Appointment</h2>
@@ -80,103 +194,40 @@ export default function BookingPage({ params }) {
           <div className="lg:col-span-2">
             <Card>
               <CardHeader>
-                <CardTitle>Personal Information</CardTitle>
+                <CardTitle>Application Details</CardTitle>
                 <CardDescription>
-                  Please provide your details for the appointment
+                  Provide your contact preferences for this application
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label htmlFor="first-name">First Name</Label>
-                    <Input
-                      id="first-name"
-                      placeholder="Enter your first name"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="last-name">Last Name</Label>
-                    <Input id="last-name" placeholder="Enter your last name" />
-                  </div>
-                </div>
-
+              <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email Address</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="Enter your email address"
-                  />
-                  <p className="text-sm text-gray-500">
-                    We'll send your appointment confirmation to this email
-                  </p>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="phone">Phone Number</Label>
-                  <Input
-                    id="phone"
-                    type="tel"
-                    placeholder="Enter your phone number"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="id-number">ID Number (if applicable)</Label>
-                  <Input
-                    id="id-number"
-                    placeholder="Enter your ID number if you have one"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label>Preferred Contact Method</Label>
-                  <select className="border rounded px-3 py-2">
+                  <label
+                    htmlFor="preferred_contact_method"
+                    className="block text-sm font-medium"
+                  >
+                    Preferred Contact Method
+                  </label>
+                  <select
+                    id="preferred_contact_method"
+                    value={formData.preferred_contact_method}
+                    onChange={(e) =>
+                      handleSelectChange(
+                        "preferred_contact_method",
+                        e.target.value
+                      )
+                    }
+                    className="border rounded px-3 py-2 w-full"
+                  >
+                    <option value="">Select contact method</option>
+                    <option value="phone">Phone</option>
                     <option value="email">Email</option>
-                    <option value="sms">SMS</option>
-                    <option value="both">Both</option>
                   </select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="document-details">Document Details</Label>
-                  <Input
-                    id="document-details"
-                    placeholder="Enter details (e.g., date of birth, names on certificate)"
-                  />
-                  <p className="text-sm text-gray-500"></p>
                 </div>
               </CardContent>
             </Card>
           </div>
 
           <div className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Select Location</CardTitle>
-                <CardDescription>
-                  Choose your preferred office location
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="location">Office Location</Label>
-                  <Select>
-                    <SelectTrigger id="location">
-                      <SelectValue placeholder="Select location" />
-                    </SelectTrigger>
-
-                    <SelectItem value="main">Main Office</SelectItem>
-                    <SelectItem value="westside">Westside Branch</SelectItem>
-                    <SelectItem value="eastside">Eastside Branch</SelectItem>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label></Label>
-                </div>
-              </CardContent>
-            </Card>
             <div>
               <Card>
                 <CardHeader>
@@ -186,12 +237,16 @@ export default function BookingPage({ params }) {
                 <CardContent>
                   <div className="mb-4 flex items-center">
                     <span>
-                      We will send your notify you when the document finished
+                      We will notify you when the document is finished
                     </span>
                   </div>
-                  <Link to={`/app/payment`} className="w-full">
-                    <Button className="w-full">Book the document</Button>
-                  </Link>
+                  <Button
+                    className="w-full"
+                    onClick={handleSubmit}
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Processing..." : "Book the document"}
+                  </Button>
                 </CardContent>
               </Card>
             </div>
@@ -214,27 +269,27 @@ export default function BookingPage({ params }) {
               <h4 className="mb-4 text-lg font-semibold">Quick Links</h4>
               <ul className="space-y-2 text-gray-300">
                 <li>
-                  <Link href="/" className="hover:text-white">
+                  <Link to="/" className="hover:text-white">
                     Home
                   </Link>
                 </li>
                 <li>
-                  <Link href="/services" className="hover:text-white">
+                  <Link to="/services" className="hover:text-white">
                     All Services
                   </Link>
                 </li>
                 <li>
-                  <Link href="/departments" className="hover:text-white">
+                  <Link to="/departments" className="hover:text-white">
                     Departments
                   </Link>
                 </li>
                 <li>
-                  <Link href="/locations" className="hover:text-white">
+                  <Link to="/locations" className="hover:text-white">
                     Locations
                   </Link>
                 </li>
                 <li>
-                  <Link href="/faq" className="hover:text-white">
+                  <Link to="/faq" className="hover:text-white">
                     FAQ
                   </Link>
                 </li>
