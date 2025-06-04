@@ -175,29 +175,13 @@ function Sign() {
                       </div>
 
                       <div className="flex gap-2">
-                        <Button
-                          variant="outlined"
-                          size="small"
-                          sx={{
-                            color: "black",
-                            borderColor: "black",
-                            "&:hover": { borderColor: "black" },
-                          }}
-                        >
-                          View
-                        </Button>
-
                         {doc.status.toLowerCase() === "signed" &&
                           doc.signed_document && (
                             <Button
                               variant="contained"
                               size="small"
                               component="a"
-                              href={`http://localhost:5000/${
-                                doc.signed_document
-                                  .replace(/\\/g, "/")
-                                  .split("src/")[1]
-                              }`}
+                              href={`http://localhost:5000/api/citizen/esignature_download/${doc.id}?download=true`}
                               download
                               sx={{
                                 backgroundColor: "black",

@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export function DocumentUploader({ onSuccess }) {
   const [state, setState] = useState({
@@ -23,6 +24,7 @@ export function DocumentUploader({ onSuccess }) {
     loadingDepartments: true,
     loadingServices: false,
   });
+  const navigate = useNavigate();
 
   const citizenId =
     useSelector((state) => state.auth?.citizenId) ||
@@ -144,10 +146,10 @@ export function DocumentUploader({ onSuccess }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!state.file || !state.selectedService) {
+    if (!state.file || !state.selectedService || !citizenId) {
       setState((prev) => ({
         ...prev,
-        error: "Please fill all required fields",
+        error: "Please select a file, a service, and ensure you are logged in.",
       }));
       return;
     }
@@ -166,7 +168,12 @@ export function DocumentUploader({ onSuccess }) {
       formData.append("citizenId", citizenId);
       formData.append("service_id", state.selectedService);
       formData.append("description", state.description || "NAN");
-      formData.append("uploaded_document", state.file);
+
+      if (state.file) {
+        formData.append("uploaded_document", state.file);
+      } else {
+        console.warn("File is missing!");
+      }
 
       console.log("Payload:", payload);
       for (let [key, value] of formData.entries()) {
@@ -184,7 +191,7 @@ export function DocumentUploader({ onSuccess }) {
         }
       );
 
-      // Handle success...
+      navigate(-1);
     } catch (error) {
       console.error("Error:", error);
       setState((prev) => ({
@@ -329,18 +336,8 @@ export function DocumentUploader({ onSuccess }) {
         </Alert>
       )}
 
-      <Button
-        type="submit"
-        variant="contained"
-        size="large"
-        fullWidth
-        disabled={state.uploading}
-      >
-        {state.uploading ? (
-          <CircularProgress size={24} color="inherit" />
-        ) : (
-          "Submit for E-Signature"
-        )}
+      <Button type="submit" variant="contained" size="large" fullWidth>
+        Submit for E-Signature
       </Button>
     </Box>
   );
