@@ -41,10 +41,10 @@ import {
   FaBookReader,
 } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
+import ChatWidget from "../chat/index";
 
 const Home = (props) => {
   const { t } = useTranslation();
-  
 
   const data = [
     {
@@ -437,6 +437,7 @@ const Home = (props) => {
               ))}
           </div>
         </div>
+        <ChatWidget />
       </div>
 
       <footer className="bg-gray-800 py-12 text-white">
@@ -447,7 +448,8 @@ const Home = (props) => {
                 {t("Government Services Portal")}
               </h4>
               <p className="text-gray-300">
-                {t("Making government services accessible to everyone.")}              </p>
+                {t("Making government services accessible to everyone.")}{" "}
+              </p>
             </div>
             <div>
               <h4 className="mb-4 text-lg font-semibold">{t("Quick Links")}</h4>
