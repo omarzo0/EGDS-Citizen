@@ -14,6 +14,8 @@ import {
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { DocumentUploader } from "./components/document-uploader";
+import { useTranslation } from "react-i18next";
+
 function Sign() {
   const [activeTab, setActiveTab] = useState(0);
   const [documents, setDocuments] = useState([]);
@@ -24,6 +26,7 @@ function Sign() {
   const authState = useSelector((state) => state.auth);
   const citizenId = authState?.citizenId || localStorage.getItem("citizenId");
   const token = localStorage.getItem("token");
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchDocuments = async () => {
@@ -115,7 +118,7 @@ function Sign() {
       <main className="container mx-auto px-4 py-8">
         <div className="mb-6 flex items-center justify-between">
           <Typography variant="h4" component="h2" className="font-bold">
-            E-signature panel system
+            {t("E-signature panel system")}
           </Typography>
           <Button
             variant="contained"
@@ -125,7 +128,7 @@ function Sign() {
             }}
             onClick={() => setActiveTab(1)}
           >
-            Upload New Document
+            {t("Upload New Document")}
           </Button>
         </div>
 
@@ -139,8 +142,8 @@ function Sign() {
             "& .Mui-selected": { color: "black", fontWeight: "bold" },
           }}
         >
-          <Tab label="My Documents" />
-          <Tab label="Upload Document" />
+          <Tab label={t("My Documents")} />
+          <Tab label={t("Upload Document")} />
         </Tabs>
 
         {activeTab === 0 && (
@@ -213,11 +216,10 @@ function Sign() {
 
         {activeTab === 1 && (
           <Card>
-            <CardHeader title="Upload New Document" />
+            <CardHeader title={t("Upload New Document")} />
             <CardContent>
               <Typography variant="body2">
-                Upload your document for processing and e-signature by
-                government officials.
+                {t("Upload your document for processing and e-signature by government officials.")}
               </Typography>
               <DocumentUploader
                 onSuccess={handleUploadSuccess}
