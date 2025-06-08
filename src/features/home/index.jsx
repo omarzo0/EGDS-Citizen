@@ -44,6 +44,7 @@ import { useTranslation } from "react-i18next";
 
 const Home = (props) => {
   const { t } = useTranslation();
+  
 
   const data = [
     {
@@ -443,62 +444,61 @@ const Home = (props) => {
           <div className="grid gap-8 md:grid-cols-4">
             <div>
               <h4 className="mb-4 text-lg font-semibold">
-                Government Services Portal
+                {t("Government Services Portal")}
               </h4>
               <p className="text-gray-300">
-                Making government services accessible to everyone.
-              </p>
+                {t("Making government services accessible to everyone.")}              </p>
             </div>
             <div>
-              <h4 className="mb-4 text-lg font-semibold">Quick Links</h4>
+              <h4 className="mb-4 text-lg font-semibold">{t("Quick Links")}</h4>
               <ul className="space-y-2 text-gray-300">
                 <li>
                   <Link href="/" className="hover:text-white">
-                    Home
+                    {t("Home")}
                   </Link>
                 </li>
                 <li>
                   <Link href="/services" className="hover:text-white">
-                    All Services
+                    {t("All Services")}
                   </Link>
                 </li>
                 <li>
                   <Link href="/departments" className="hover:text-white">
-                    Departments
+                    {t("Departments")}
                   </Link>
                 </li>
                 <li>
                   <Link href="/locations" className="hover:text-white">
-                    Locations
+                    {t("Locations")}
                   </Link>
                 </li>
                 <li>
                   <Link to="/app/faq" className="hover:text-white">
-                    FAQ
+                    {t("FAQ")}
                   </Link>
                 </li>
               </ul>
             </div>
             <div>
-              <h4 className="mb-4 text-lg font-semibold">Contact</h4>
+              <h4 className="mb-4 text-lg font-semibold">{t("Contact")}</h4>
               <ul className="space-y-2 text-gray-300">
-                <li>Email: support@govservices.gov</li>
-                <li>Phone: 19990</li>
-                <li>Hours: Sun-Fri, 7am-5pm</li>
+                <li>{t("Email: support@govservices.gov")}</li>
+                <li>{t("Phone: 19990")}</li>
+                <li>{t("Hours: Sun-Fri, 7am-5pm")}</li>
               </ul>
             </div>
             <div>
-              <h4 className="mb-4 text-lg font-semibold">Subscribe</h4>
+              <h4 className="mb-4 text-lg font-semibold">{t("Subscribe")}</h4>
               <p className="mb-2 text-gray-300">
-                Get updates on new services and features
+                {t("Get updates on new services and features")}
               </p>
               <div className="flex">
                 <input
                   type="email"
-                  placeholder="Your email"
+                  placeholder={t("Your email")}
                   className="rounded-r-none bg-gray-700 text-white"
                 />
-                <button className="rounded-l-none">Subscribe</button>
+                <button className="rounded-l-none">{t("Subscribe")}</button>
               </div>
             </div>
           </div>

@@ -5,10 +5,12 @@ import { Input } from "../../lib/ui/input";
 import ServiceCard from "./components/service-card";
 import DepartmentCard from "./components/department-card";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function HomePage() {
   const [departments, setDepartments] = useState([]);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState({
@@ -84,28 +86,27 @@ export default function HomePage() {
       <main className="container mx-auto px-4 py-12">
         <section className="mb-16 text-center">
           <h2 className="mb-4 text-4xl font-bold">
-            Book Your Government Document Appointments
+            {t("Book Your Government Document Appointments")}
           </h2>
           <p className="mx-auto mb-8 max-w-2xl text-lg text-gray-600">
-            Search for available services and schedule appointments for all your
-            government document needs in one place.
+            {t("Search for available services and schedule appointments for all your government document needs in one place.")}
           </p>
           <div className="mx-auto flex max-w-md items-center space-x-2">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
               <Input
                 type="text"
-                placeholder="Search for services or documents..."
+                placeholder= {t("Search for services or documents...")}
                 className="pl-10"
               />
             </div>
-            <Button>Search</Button>
+            <Button>{t("Search")}</Button>
           </div>
         </section>
 
         <section className="mb-16">
           <h3 className="mb-6 text-2xl font-semibold">
-            Government Departments
+            {t("Government Departments")}
           </h3>
           {loading.departments ? (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -142,7 +143,7 @@ export default function HomePage() {
         </section>
 
         <section className="mb-16">
-          <h3 className="mb-6 text-2xl font-semibold">Popular Services</h3>
+          <h3 className="mb-6 text-2xl font-semibold">{t("Popular Services")}</h3>
           {loading.services ? (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {[...Array(6)]?.map((_, i) => (
@@ -180,10 +181,9 @@ export default function HomePage() {
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
                 <span className="text-xl font-bold">1</span>
               </div>
-              <h4 className="mb-2 text-xl font-semibold">Select a Service</h4>
+              <h4 className="mb-2 text-xl font-semibold">{t("Select a Service")}</h4>
               <p className="text-gray-600">
-                Choose from our comprehensive list of government document
-                services.
+                {t("Choose from our comprehensive list of government document services.")}
               </p>
             </div>
             <div className="rounded-lg bg-white p-6 shadow-sm">
@@ -191,20 +191,19 @@ export default function HomePage() {
                 <span className="text-xl font-bold">2</span>
               </div>
               <h4 className="mb-2 text-xl font-semibold">
-                Book an Appointment
+                {t("Book an Appointment")}
               </h4>
               <p className="text-gray-600">
-                Select a convenient date and time from the available slots.
+                {t("Select a convenient date and time from the available slots.")}
               </p>
             </div>
             <div className="rounded-lg bg-white p-6 shadow-sm">
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
                 <span className="text-xl font-bold">3</span>
               </div>
-              <h4 className="mb-2 text-xl font-semibold">Visit the Office</h4>
+              <h4 className="mb-2 text-xl font-semibold">{t("Visit the Office")}</h4>
               <p className="text-gray-600">
-                Arrive at the scheduled time with required documents to complete
-                your process.
+                {t("Arrive at the scheduled time with required documents to complete your process.")}
               </p>
             </div>
           </div>
@@ -216,62 +215,62 @@ export default function HomePage() {
           <div className="grid gap-8 md:grid-cols-4">
             <div>
               <h4 className="mb-4 text-lg font-semibold">
-                Government Services Portal
+                {t("Government Services Portal")}
               </h4>
               <p className="text-gray-300">
-                Making government services accessible to everyone.
+                {t("Making government services accessible to everyone.")}
               </p>
             </div>
             <div>
-              <h4 className="mb-4 text-lg font-semibold">Quick Links</h4>
+              <h4 className="mb-4 text-lg font-semibold">{t("Quick Links")}</h4>
               <ul className="space-y-2 text-gray-300">
                 <li>
                   <Link to="/" className="hover:text-white">
-                    Home
+                    {t("Home")}
                   </Link>
                 </li>
                 <li>
                   <Link to="/services" className="hover:text-white">
-                    All Services
+                    {t("All Services")}
                   </Link>
                 </li>
                 <li>
                   <Link to="/departments" className="hover:text-white">
-                    Departments
+                    {t("Departments")}
                   </Link>
                 </li>
                 <li>
                   <Link to="/locations" className="hover:text-white">
-                    Locations
+                    {t("Locations")}
                   </Link>
                 </li>
                 <li>
                   <Link to="/faq" className="hover:text-white">
-                    FAQ
+                    {t("FAQ")}
                   </Link>
                 </li>
               </ul>
             </div>
             <div>
-              <h4 className="mb-4 text-lg font-semibold">Contact</h4>
+              <h4 className="mb-4 text-lg font-semibold">{t("Contact")}</h4>
               <ul className="space-y-2 text-gray-300">
-                <li>Email: support@govservices.gov</li>
-                <li>Phone: 19990</li>
-                <li>Hours: Sun-Fri, 7am-5pm</li>
+                <li>{t("Email: support@govservices.gov")}</li>
+                <li>{t("Phone: 19990")}</li>
+                <li>{t("Hours: Sun-Fri, 7am-5pm")}</li>
               </ul>
             </div>
             <div>
-              <h4 className="mb-4 text-lg font-semibold">Subscribe</h4>
+              <h4 className="mb-4 text-lg font-semibold">{t("Subscribe")}</h4>
               <p className="mb-2 text-gray-300">
-                Get updates on new services and features
+                {t("Get updates on new services and features")}
               </p>
               <div className="flex">
                 <Input
                   type="email"
-                  placeholder="Your email"
+                  placeholder={t("Your email")}
                   className="rounded-r-none bg-gray-700 text-white"
                 />
-                <Button className="rounded-l-none">Subscribe</Button>
+                <Button className="rounded-l-none">{t("Subscribe")}</Button>
               </div>
             </div>
           </div>

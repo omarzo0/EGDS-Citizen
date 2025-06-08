@@ -5,6 +5,7 @@ import InputText from "../../components/Input/InputText";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setAuthData } from "../common/authSlice";
+import { motion } from "framer-motion";
 
 function Login() {
   const INITIAL_LOGIN_OBJ = {
@@ -22,7 +23,7 @@ function Login() {
     setErrorMessage("");
 
     if (loginObj.national_id.trim() === "")
-      return setErrorMessage("Email is required!");
+      return setErrorMessage("National ID is required!");
     if (loginObj.password.trim() === "")
       return setErrorMessage("Password is required!");
 
@@ -41,36 +42,22 @@ function Login() {
         const token = response.data?.data?.accessToken;
         const userId = response.data?.data?.id;
 
-        if (!token) {
-          throw new Error("No access token received");
-        }
+        if (!token) throw new Error("No access token received");
 
         localStorage.setItem("token", token);
         if (userId) localStorage.setItem("citizenId", userId);
 
-        dispatch(
-          setAuthData({
-            id: userId,
-            accessToken: token,
-          })
-        );
-
+        dispatch(setAuthData({ id: userId, accessToken: token }));
         window.location.href = "/app/home";
-      } else if (response.data?.status === "error") {
-        throw new Error(response.data?.error?.message || "Login failed");
       } else {
-        throw new Error("Unexpected response format");
+        throw new Error(response.data?.error?.message || "Login failed");
       }
     } catch (err) {
-      console.error("Login error details:", err);
-
-      // Handle axios errors and backend error responses
       const errorMsg =
         err.response?.data?.error?.message ||
         err.response?.data?.message ||
         err.message ||
         "Login failed. Please try again.";
-
       setErrorMessage(errorMsg);
     } finally {
       setLoading(false);
@@ -83,62 +70,79 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-base-200 flex items-center justify-center">
-      <div className="card w-full max-w-md shadow-xl">
-        <div className="bg-base-100 rounded-xl p-8">
-          <h2 className="text-2xl font-semibold mb-4 text-center">Login</h2>
-          <form onSubmit={(e) => submitForm(e)}>
-            <div className="mb-4">
-              <InputText
-                type="num"
-                defaultValue={loginObj.national_id}
-                updateType="national_id"
-                containerStyle="mt-4"
-                labelTitle="national_id"
-                updateFormValue={updateFormValue}
-              />
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-pink-100 to-purple-100 flex items-center justify-center px-4 relative overflow-hidden">
 
-              <InputText
-                defaultValue={loginObj.password}
-                type="password"
-                updateType="password"
-                containerStyle="mt-4"
-                labelTitle="Password"
-                updateFormValue={updateFormValue}
-              />
-            </div>
+      {/* Decorative Blobs */}
+      <motion.div
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 2 }}
+        className="absolute w-96 h-96 bg-pink-200 opacity-40 rounded-full -top-20 -left-20 blur-3xl"
+      />
+      <motion.div
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ delay: 0.3, duration: 2 }}
+        className="absolute w-80 h-80 bg-blue-200 opacity-40 rounded-full -bottom-20 -right-20 blur-3xl"
+      />
 
-            <div className="text-right text-primary">
-              <Link to="/forgot-password">
-                <span className="text-sm inline-block hover:text-primary hover:underline hover:cursor-pointer transition duration-200">
-                  Forgot Password?
-                </span>
-              </Link>
-            </div>
+      <motion.div
+        className="bg-white/60 backdrop-blur-xl shadow-2xl rounded-3xl w-full max-w-md p-8 border border-gray-300/50"
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
+        <h2 className="text-3xl font-bold text-gray-800 text-center mb-4 tracking-wide">
+          Welcome Back
+        </h2>
+        <p className="text-sm text-gray-600 text-center mb-6">
+          Enter your credentials to access your account.
+        </p>
+        <form onSubmit={submitForm} className="space-y-6">
+          <InputText
+            type="num"
+            defaultValue={loginObj.national_id}
+            updateType="national_id"
+            labelTitle="National ID"
+            updateFormValue={updateFormValue}
+            containerStyle="relative"
+          />
 
-            <ErrorText styleClass="mt-8">{errorMessage}</ErrorText>
-            <button
-              type="submit"
-              className={
-                "btn mt-2 w-full bg-black text-white" +
-                (loading ? " loading" : "")
-              }
-              disabled={loading}
-            >
-              {loading ? "Logging in..." : "Login"}
-            </button>
+          <InputText
+            type="password"
+            defaultValue={loginObj.password}
+            updateType="password"
+            labelTitle="Password"
+            updateFormValue={updateFormValue}
+            containerStyle="relative"
+          />
 
-            <div className="text-center mt-4">
-              Don't have an account?{" "}
-              <Link to="/register">
-                <span className="inline-block hover:text-primary hover:underline hover:cursor-pointer transition duration-200">
-                  Register
-                </span>
-              </Link>
-            </div>
-          </form>
-        </div>
-      </div>
+          <div className="flex justify-end text-sm">
+            <Link to="/forgot-password" className="text-blue-500 hover:underline">
+              Forgot Password?
+            </Link>
+          </div>
+
+          <ErrorText styleClass="text-red-500">{errorMessage}</ErrorText>
+
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            type="submit"
+            className="w-full py-3 rounded-xl text-white bg-gradient-to-r from-blue-500 to-purple-500 hover:from-purple-500 hover:to-blue-500 transition-all duration-300 shadow-md"
+            disabled={loading}
+          >
+            {loading ? "Logging in..." : "Login"}
+          </motion.button>
+
+          <div className="text-center text-sm text-gray-600 mt-4">
+            Don't have an account?{" "}
+            <Link to="/register" className="underline text-blue-600 hover:text-blue-800">
+              Register
+            </Link>
+          </div>
+        </form>
+      </motion.div>
     </div>
   );
 }
