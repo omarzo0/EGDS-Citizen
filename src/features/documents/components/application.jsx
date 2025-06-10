@@ -144,7 +144,8 @@ export default function BookingPage() {
             citizen_id: citizenId,
             serviceid: serviceid,
             department_id: serviceInfo.department_id,
-            preferred_contact_method: formData.preferred_contact_method,
+            preferred_contact_method: formData.preferred_contact_method, // Add preferred contact method here
+            application_type: formData.application_type, // Add application type here
             status: "Pending",
             amount: serviceInfo.fees.replace(/\D/g, ""),
             location: formData.location,
@@ -221,6 +222,27 @@ export default function BookingPage() {
                     <option value="">Select contact method</option>
                     <option value="phone">Phone</option>
                     <option value="email">Email</option>
+                  </select>
+                </div>
+                <div className="space-y-2">
+                  <label
+                    htmlFor="application_type"
+                    className="block text-sm font-medium"
+                  >
+                    Application Type
+                  </label>
+                  <select
+                    id="application_type"
+                    value={formData.application_type}
+                    onChange={(e) =>
+                      handleSelectChange("application_type", e.target.value)
+                    }
+                    className="border rounded px-3 py-2 w-full"
+                  >
+                    <option value="">Select application type</option>
+                    <option value="New">New</option>
+                    <option value="Renewal">Renewal</option>
+                    <option value="Lost Replacement">Lost Replacement</option>
                   </select>
                 </div>
               </CardContent>

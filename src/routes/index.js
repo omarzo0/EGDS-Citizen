@@ -12,6 +12,7 @@ const ProfileSettings = lazy(() =>
 );
 const Profile = lazy(() => import("../pages/protected/profile"));
 const Home = lazy(() => import("../pages/protected/home"));
+const News = lazy(() => import("../pages/protected/news"));
 const Providers = lazy(() => import("../pages/protected/providers"));
 const Digitalwallet = lazy(() => import("../pages/protected/digitalwallet"));
 const Documents = lazy(() => import("../pages/protected/documents"));
@@ -97,6 +98,10 @@ const routes = [
   {
     path: "/faq",
     component: Faq,
+  },
+  {
+    path: "/news",
+    component: News,
   },
 ];
 

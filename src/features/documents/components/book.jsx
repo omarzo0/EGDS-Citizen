@@ -116,14 +116,7 @@ export default function ServicePage() {
                   </div>
                 </div>
               </TabsContent>
-              <TabsContent
-                value="requirements"
-                className="rounded-lg border p-6"
-              >
-                <h3 className="mb-4 text-xl font-semibold">
-                  Required Documents
-                </h3>
-              </TabsContent>
+
               <TabsContent value="locations" className="rounded-lg border p-6">
                 <h3 className="mb-4 text-xl font-semibold">
                   Available Locations

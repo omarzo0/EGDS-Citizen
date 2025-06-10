@@ -166,6 +166,14 @@ function Header() {
                     </a>
                   </li>
                   <li>
+                    <a
+                      href="/app/news"
+                      className="block py-2 hover:text-[#BE3144]"
+                    >
+                      {t("News")}
+                    </a>
+                  </li>
+                  <li>
                     <button
                       onClick={handleLogout}
                       className="block py-2 hover:text-[#BE3144]"
