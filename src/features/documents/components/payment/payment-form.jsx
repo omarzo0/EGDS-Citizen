@@ -99,6 +99,7 @@ export default function PaymentForm() {
   const handleBackToPayment = () => {
     setShowOtpForm(false);
     setSuccessMessage(null);
+    otpForm.reset(); // Reset the OTP form
   };
 
   const onSubmitPayment = async (data) => {
@@ -119,25 +120,17 @@ export default function PaymentForm() {
         }
       );
 
-      console.log("Full API Response:", response.data); // Debug log
-
-      // Updated condition to check for status === "success"
       if (response.data.status === "success") {
         setSuccessMessage(
           response.data.data.message ||
             "OTP has been sent to your registered mobile number"
         );
         setShowOtpForm(true);
+        paymentForm.reset(); // Reset the payment form
       } else {
         setError(response.data.message || "Payment initiation failed");
       }
     } catch (error) {
-      let errorMessage = "Failed to initiate payment";
-      if (error.response) {
-        console.error("Error response data:", error.response.data); // Debug log
-        errorMessage = error.response.data.message || errorMessage;
-      }
-      setError(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -238,15 +231,21 @@ export default function PaymentForm() {
               </div>
 
               <FormField
+                control={otpForm.control}
                 name="otp"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>OTP Code</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="123456"
-                        maxLength={6}
-                        inputMode="numeric"
+                      <input
+                        type="text"
+                        value={otpForm.watch("otp") || ""}
+                        onChange={(e) =>
+                          otpForm.setValue(
+                            "otp",
+                            e.target.value.replace(/\D/g, "")
+                          )
+                        }
                       />
                     </FormControl>
                     <FormMessage />
