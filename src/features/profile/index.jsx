@@ -19,6 +19,8 @@ import Feedback from "./components/feedback";
 import Documents from "./components/documents"; // Import your Documents component
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
+
 
 function ProfilePage() {
   const [tabValue, setTabValue] = useState(0);
@@ -30,6 +32,7 @@ function ProfilePage() {
     e_signatures: 0,
     total_applications: 0,
   });
+  const { t } = useTranslation();
   const [citizenData, setCitizenData] = useState({
     first_name: "",
     last_name: "",
@@ -124,12 +127,12 @@ function ProfilePage() {
 
   if (loading) {
     return (
-      <Box sx={{ p: 4, textAlign: "center" }}>Loading profile data...</Box>
+      <Box sx={{ p: 4, textAlign: "center" }}>{t("Loading profile data...")}</Box>
     );
   }
 
   if (error) {
-    return <Box sx={{ p: 4, color: "error.main" }}>Error: {error}</Box>;
+    return <Box sx={{ p: 4, color: "error.main" }}>{t("Error: ")}{error}</Box>;
   }
 
   return (
@@ -175,13 +178,13 @@ function ProfilePage() {
                 }}
               >
                 <Typography>
-                  Documents applied: {counts.document_applications}
+                  {t("Documents applied:")} {counts.document_applications}
                 </Typography>
                 <Typography>
-                  Digital wallet Documents: {counts.digital_wallet_documents}
+                  {t("Digital wallet Documents:")} {counts.digital_wallet_documents}
                 </Typography>
                 <Typography>
-                  E-signature Documents: {counts.e_signatures}
+                  {t("E-signature Documents:")} {counts.e_signatures}
                 </Typography>
               </Box>
 
@@ -196,7 +199,7 @@ function ProfilePage() {
                     backgroundColor: "black",
                   }}
                 >
-                  View e-sign Progress
+                  {t("View e-sign Progress")}
                 </Button>
               </Link>
             </Box>

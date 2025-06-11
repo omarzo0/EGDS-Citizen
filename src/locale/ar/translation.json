@@ -176,5 +176,11 @@
   "E-signature": "توقيع",
   "logout": "خروج",
   "News": "ألاخبار",
-  "news latest News": "ألاخبار الحديثة"
+  "news latest News": "ألاخبار الحديثة",
+  "Loading profile data...":"جاري تحميل بيانات الملف الشخصي...",
+  "Error: ":":خطأ",
+  "Documents applied:":"المستندات المطلوبة:",
+  "Digital wallet Documents:":"مستندات المحفظة الرقمية:",
+  "E-signature Documents:":"مستندات التوقيع الإلكتروني:",
+  "View e-sign Progress":"عرض تقدم التوقيع الإلكتروني"
 }
