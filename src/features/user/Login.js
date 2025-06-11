@@ -70,20 +70,20 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-pink-100 to-purple-100 flex items-center justify-center px-4 relative overflow-hidden">
+    <div className="min-h-screen bg-white flex items-center justify-center px-4 relative overflow-hidden">
 
       {/* Decorative Blobs */}
       <motion.div
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ duration: 2 }}
-        className="absolute w-96 h-96 bg-pink-200 opacity-40 rounded-full -top-20 -left-20 blur-3xl"
+        className="absolute w-96 h-96  opacity-40 rounded-full -top-20 -left-20 blur-3xl"
       />
       <motion.div
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ delay: 0.3, duration: 2 }}
-        className="absolute w-80 h-80 bg-blue-200 opacity-40 rounded-full -bottom-20 -right-20 blur-3xl"
+        className="absolute w-80 h-80  opacity-40 rounded-full -bottom-20 -right-20 blur-3xl"
       />
 
       <motion.div
@@ -129,7 +129,7 @@ function Login() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             type="submit"
-            className="w-full py-3 rounded-xl text-white bg-gradient-to-r from-blue-500 to-purple-500 hover:from-purple-500 hover:to-blue-500 transition-all duration-300 shadow-md"
+            className="w-full py-3 rounded-xl text-white bg-black hover:bg-gray-800 transition-all duration-300 shadow-md"
             disabled={loading}
           >
             {loading ? "Logging in..." : "Login"}
